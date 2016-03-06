@@ -7,7 +7,7 @@ import (
 
 var Routers *echo.Echo
 
-func init() {
-    Routers := echo.New()
+func Init() {
+    Routers = echo.New()
     Routers.Get("/", controllers.Index)
 }
