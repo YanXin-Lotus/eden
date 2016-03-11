@@ -28,6 +28,6 @@ func (c BaseController) CurrentUser() (u *models.User) {
 	return
 }
 
-func (c BaseController) Message(msg string) {
-	return c.HTML(http.StatusFound, html)
+func (c BaseController) Message() {
+	return c.Render(http.StatusOK, "views/index.html", "test")
 }

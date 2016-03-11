@@ -7,13 +7,13 @@ type MainController struct {
 }
 
 func (c MainController) Index() error {
-	return c.String(http.StatusOK, "Hello, World!\n")
+	return c.Context.String(http.StatusOK, "Hello, World!\n")
 }
 
 func (c MainController) Pagination() error {
-	return c.String(http.StatusOK, "Pagination\n")
+	return c.Context.String(http.StatusOK, "Pagination\n")
 }
 
 func (c MainController) Category() error {
-	return c.Stirng(http.StatusOK, "Category\n")
+	return c.Context.Stirng(http.StatusOK, "Category\n")
 }
