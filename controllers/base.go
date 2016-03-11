@@ -9,6 +9,7 @@ import (
 
 type BaseController struct {
 	*echo.Context
+	Data map[string]interface{}
 }
 
 func (c BaseController) Prepare() {
