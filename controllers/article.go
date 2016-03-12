@@ -15,5 +15,5 @@ func (c MainController) Pagination() error {
 }
 
 func (c MainController) Category() error {
-	return c.Context.Stirng(http.StatusOK, "Category\n")
+	return c.Context.String(http.StatusOK, "Category\n")
 }
