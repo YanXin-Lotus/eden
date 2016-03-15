@@ -45,6 +45,7 @@ func Init() {
 	Routers.Get("/cat/:cat", controllers.Category)
 
 	//account routers
+	Routers.Get("/login", controllers.Login)
 
 	//other routers
 	Routers.Get("/about", controllers.About)

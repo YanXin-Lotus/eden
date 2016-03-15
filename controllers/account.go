@@ -7,7 +7,7 @@ import (
 )
 
 func Login(c *echo.Context) error {
-	return c.Render(http.StatusOK, "views/account/login.html", nil)
+	return c.Render(http.StatusOK, "account/login.html", nil)
 }
 
 func DoLogin(c *echo.Context) error {

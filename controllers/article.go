@@ -7,7 +7,7 @@ import (
 )
 
 func Index(c *echo.Context) error {
-	return c.String(http.StatusOK, "Hello, World!\n")
+	return c.Render(http.StatusOK, "about.html", "")
 }
 
 func Pagination(c *echo.Context) error {

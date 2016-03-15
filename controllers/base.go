@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/labstack/echo"
@@ -14,9 +13,7 @@ func Prepare() {
 }
 
 func About(c *echo.Context) error {
-	err := c.Render(http.StatusOK, "about", "")
-	fmt.Println("err is:", err)
-	return err
+	return c.Render(http.StatusOK, "about.html", "")
 }
 
 func Friendship(c *echo.Context) error {
