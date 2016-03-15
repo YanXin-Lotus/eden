@@ -1,19 +1,19 @@
 package controllers
 
-import "net/http"
+import (
+	"net/http"
 
-type MainController struct {
-	BaseController
+	"github.com/labstack/echo"
+)
+
+func Index(c *echo.Context) error {
+	return c.String(http.StatusOK, "Hello, World!\n")
 }
 
-func (c MainController) Index() error {
-	return c.Context.String(http.StatusOK, "Hello, World!\n")
+func Pagination(c *echo.Context) error {
+	return c.String(http.StatusOK, "Pagination\n")
 }
 
-func (c MainController) Pagination() error {
-	return c.Context.String(http.StatusOK, "Pagination\n")
-}
-
-func (c MainController) Category() error {
-	return c.Context.String(http.StatusOK, "Category\n")
+func Category(c *echo.Context) error {
+	return c.String(http.StatusOK, "Category\n")
 }

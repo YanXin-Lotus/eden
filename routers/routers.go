@@ -6,6 +6,7 @@ import (
 	"text/template"
 
 	"github.com/labstack/echo"
+	mw "github.com/labstack/echo/middleware"
 )
 
 var Routers *echo.Echo
@@ -20,9 +21,32 @@ func (t *Template) Render(w io.Writer, name string, data interface{}) error {
 
 func Init() {
 	Routers = echo.New()
-	Routers.Get("/", controllers.MainController.Index)
-	Routers.Get("/page/:id", controllers.MainController.Pagination)
-	Routers.Get("/cat/:cat", controllers.MainController.Category)
+	// Debug mode
+	Routers.Debug()
 
-	Routers.Get("/message", controllers.BaseController.Message)
+	//------------
+	// Middleware
+	//------------
+
+	// Logger
+	Routers.Use(mw.Logger())
+
+	// Recover
+	Routers.Use(mw.Recover())
+
+	t := &Template{
+		templates: template.Must(template.ParseGlob("views/*.html")),
+	}
+	Routers.SetRenderer(t)
+
+	//article routers
+	Routers.Get("/", controllers.Index)
+	Routers.Get("/page/:id", controllers.Pagination)
+	Routers.Get("/cat/:cat", controllers.Category)
+
+	//account routers
+
+	//other routers
+	Routers.Get("/about", controllers.About)
+	Routers.Get("/friendship", controllers.Friendship)
 }

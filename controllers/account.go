@@ -1,41 +1,43 @@
 package controllers
 
-type AccountController struct {
-	BaseController
+import (
+	"net/http"
+
+	"github.com/labstack/echo"
+)
+
+func Login(c *echo.Context) error {
+	return c.Render(http.StatusOK, "views/account/login.html", nil)
 }
 
-func (c *AccountController) Login() {
-	return
+func DoLogin(c *echo.Context) error {
+	return c.Redirect(http.StatusContinue, "/")
 }
 
-func (c *AccountController) DoLogin() {
-	return
+func Register(c *echo.Context) error {
+	return c.Render(http.StatusOK, "views/account/register.html", nil)
 }
 
-func (c *AccountController) Register() {
-	return
+func DoRegister(c *echo.Context) error {
+	return c.Redirect(http.StatusContinue, "/")
 }
 
-func (c *AccountController) DoRegister() {
-	return
+func Info(c *echo.Context) error {
+	return c.Render(http.StatusOK, "views/account/info.html", nil)
 }
 
-func (c *AccountController) Info() {
-	return
+func EditInfo(c *echo.Context) error {
+	return c.Render(http.StatusOK, "views/account/editinfo.html", nil)
 }
 
-func (c *AccountController) EditInfo() {
-	return
+func DoEdit(c *echo.Context) error {
+	return c.Redirect(http.StatusContinue, "/info")
 }
 
-func (c *AccountController) DoEdit() {
-	return
+func ChangePW(c *echo.Context) error {
+	return c.Render(http.StatusOK, "views/account/changepw.html", nil)
 }
 
-func (c *AccountController) ChangePW() {
-	return
-}
-
-func (c *AccountController) DoChange() {
-	return
+func DoChange(c *echo.Context) error {
+	return c.Redirect(http.StatusContinue, "/info")
 }

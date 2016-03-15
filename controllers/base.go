@@ -1,33 +1,36 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/labstack/echo"
 )
 
-var BaseController echo.Context
+var BC echo.Context
 
-func init() {
-	BaseController.Set("DB", val)
-}
-
-func (c BaseController) Prepare() {
+func Prepare() {
 	return
 }
 
-func (c BaseController) Signin() {
+func About(c *echo.Context) error {
+	err := c.Render(http.StatusOK, "about", "")
+	fmt.Println("err is:", err)
+	return err
+}
+
+func Friendship(c *echo.Context) error {
+	return c.String(http.StatusOK, "Friendship")
+}
+
+func Signin() {
 	return
 }
 
-func (c BaseController) Signout() {
+func Signout() {
 	return
 }
 
-func (c BaseController) CurrentUser() {
+func CurrentUser() {
 	return
-}
-
-func (c BaseController) Message() error {
-	return c.Render(http.StatusOK, "views/index.html", "test")
 }
