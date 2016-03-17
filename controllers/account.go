@@ -7,7 +7,7 @@ import (
 )
 
 func Login(c *echo.Context) error {
-	return c.Render(http.StatusOK, "account/login.html", nil)
+	return Render.HTML(c.Response().Writer(), http.StatusOK, "account/login", nil)
 }
 
 func DoLogin(c *echo.Context) error {
@@ -15,7 +15,7 @@ func DoLogin(c *echo.Context) error {
 }
 
 func Register(c *echo.Context) error {
-	return c.Render(http.StatusOK, "views/account/register.html", nil)
+	return Render.HTML(c.Response().Writer(), http.StatusOK, "account/register", nil)
 }
 
 func DoRegister(c *echo.Context) error {
@@ -23,11 +23,11 @@ func DoRegister(c *echo.Context) error {
 }
 
 func Info(c *echo.Context) error {
-	return c.Render(http.StatusOK, "views/account/info.html", nil)
+	return Render.HTML(c.Response().Writer(), http.StatusOK, "account/info", nil)
 }
 
 func EditInfo(c *echo.Context) error {
-	return c.Render(http.StatusOK, "views/account/editinfo.html", nil)
+	return Render.HTML(c.Response().Writer(), http.StatusOK, "account/editinfo", nil)
 }
 
 func DoEdit(c *echo.Context) error {
@@ -35,7 +35,7 @@ func DoEdit(c *echo.Context) error {
 }
 
 func ChangePW(c *echo.Context) error {
-	return c.Render(http.StatusOK, "views/account/changepw.html", nil)
+	return Render.HTML(c.Response().Writer(), http.StatusOK, "account/changepw", nil)
 }
 
 func DoChange(c *echo.Context) error {
