@@ -24,14 +24,6 @@ func Friendship(c *echo.Context) error {
 	return c.String(http.StatusOK, "Friendship")
 }
 
-func Signin() {
-	return
-}
-
-func Signout() {
-	return
-}
-
 func CurrentUser() {
 	return
 }

@@ -14,6 +14,10 @@ func DoLogin(c *echo.Context) error {
 	return c.Redirect(http.StatusContinue, "/")
 }
 
+func Signout(c *echo.Context) error {
+	return nil
+}
+
 func Register(c *echo.Context) error {
 	return Render.HTML(c.Response().Writer(), http.StatusOK, "account/register", nil)
 }

@@ -17,3 +17,15 @@ func Pagination(c *echo.Context) error {
 func Category(c *echo.Context) error {
 	return c.String(http.StatusOK, "Category\n")
 }
+
+func Article(c *echo.Context) error {
+	return nil
+}
+
+func EditArticle(c *echo.Context) error {
+	return nil
+}
+
+func DoEditArticle(c *echo.Context) error {
+	return nil
+}
