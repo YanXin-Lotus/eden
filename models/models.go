@@ -25,3 +25,13 @@ type Article struct {
 	CreatedBy int32
 	Hits      uint64
 }
+
+type ArtList struct {
+	ID            uint64
+	CreatedBy     int32
+	CreatedByName string
+	Title         string
+	LastReply     time.Time
+	LastReplyBy   int32
+	LastReplyName string
+}
