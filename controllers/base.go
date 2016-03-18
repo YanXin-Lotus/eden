@@ -22,7 +22,7 @@ func About(c *echo.Context) error {
 
 
 func Friendship(c *echo.Context) error {
-	return c.String(http.StatusOK, "Friendship")
+	return Render.HTML(c.Response().Writer(), http.StatusOK, "friendship", nil)
 }
 
 func CurrentUser() {
@@ -31,7 +31,7 @@ func CurrentUser() {
 
 func init() {
 	Render = render.New(render.Options{
-		Directory:  "views",
+		Directory:  "public/views",
 		Extensions: []string{".html"},
 		Funcs:      []template.FuncMap{},
 	})

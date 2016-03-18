@@ -20,6 +20,9 @@ func Init() {
 	//------------
 	// Middleware
 	//------------
+    
+    //static files
+    Routers.Use(mw.Static("public"))
 
 	// Logger
 	Routers.Use(mw.Logger())
