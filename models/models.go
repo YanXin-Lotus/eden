@@ -4,6 +4,10 @@ import (
 	"time"
 )
 
+var (
+    pageSize = 20
+)
+
 type User struct {
 	ID        int32
 	Name      string
@@ -26,7 +30,7 @@ type Article struct {
 	Hits      uint64
 }
 
-type ArtList struct {
+type ExtArt struct {
 	ID            uint64
 	CreatedBy     int32
 	CreatedByName string
@@ -36,18 +40,25 @@ type ArtList struct {
 	LastReplyName string
 }
 
+//query by pk:ID
 func UserQuery(u *User) (err error) {
-    return nil
+    return DB.First(&u).Error
 }
 
+//query by pk:ID
 func ArtQuery(art *Article) (err error) {
-    return nil
+    return DB.First(&art).Error
 }
 
-func ArtListQuery(page int, sort int) (list []ArtList, err error) {
-    return nil, nil
+
+func ArtListQuery(page int, sort int) (list []ExtArt, err error) {
+    err = DB.Table("article").Select("article.id, article.Title, article.category, article.create_at").Joins("inner join user on user.id = article.create_by").Scan(&list).Offset((page - 1) * pageSize).Limit(pageSize).Error
+    if err != nil {
+        return nil, err
+    }
+    return list, nil
 }
 
-func ArtContentQuery(key string) (list []ArtList, err error) {
+func ArtContentQuery(key string) (list []ExtArt, err error) {
     return nil, nil
 }

@@ -20,6 +20,7 @@ func About(c *echo.Context) error {
 	return Render.HTML(c.Response().Writer(), http.StatusOK, "about", nil)
 }
 
+
 func Friendship(c *echo.Context) error {
 	return c.String(http.StatusOK, "Friendship")
 }
