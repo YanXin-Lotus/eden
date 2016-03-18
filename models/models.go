@@ -35,3 +35,19 @@ type ArtList struct {
 	LastReplyBy   int32
 	LastReplyName string
 }
+
+func UserQuery(u *User) (err error) {
+    return nil
+}
+
+func ArtQuery(art *Article) (err error) {
+    return nil
+}
+
+func ArtListQuery(page int, sort int) (list []ArtList, err error) {
+    return nil, nil
+}
+
+func ArtContentQuery(key string) (list []ArtList, err error) {
+    return nil, nil
+}
