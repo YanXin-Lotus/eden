@@ -1,8 +1,6 @@
 package routers
 
 import (
-	"eden/controllers"
-
 	"github.com/labstack/echo"
 	mw "github.com/labstack/echo/middleware"
 )
@@ -31,26 +29,26 @@ func Init() {
 	Routers.Use(mw.Recover())
 
 	//article routers
-	Routers.Get("/", controllers.Index)
-	Routers.Get("/art/:id", controllers.Article)
-	Routers.Get("/art/:id/edit", controllers.EditArticle)
-	Routers.Post("/art/:id/edit", controllers.DoEditArticle)
-	Routers.Get("/page/:id", controllers.Pagination)
-	Routers.Get("/cat/:cat", controllers.Category)
+	Routers.Get("/", index())
+	Routers.Get("/art/:id", article())
+	Routers.Get("/art/:id/edit", editArticle())
+	Routers.Post("/art/:id/edit", doEditArticle())
+	Routers.Get("/page/:id", pagination())
+	Routers.Get("/cat/:cat", category())
 
 	//account routers
-	Routers.Get("/login", controllers.Login)
-	Routers.Post("/login", controllers.DoLogin)
-	Routers.Get("/signout", controllers.Signout)
-	Routers.Get("/register", controllers.Register)
-	Routers.Post("/register", controllers.DoRegister)
-	Routers.Get("/info", controllers.Info)
-	Routers.Get("/editinfo", controllers.EditInfo)
-	Routers.Post("/editinfo", controllers.DoEdit)
-	Routers.Get("/changepw", controllers.ChangePW)
-	Routers.Post("/changePW", controllers.DoChange)
+	Routers.Get("/login", login())
+	Routers.Post("/login", doLogin())
+	Routers.Get("/signout", signout())
+	Routers.Get("/register", register())
+	Routers.Post("/register", doRegister())
+	Routers.Get("/info", info())
+	Routers.Get("/editinfo", editInfo())
+	Routers.Post("/editinfo", doEditInfo())
+	Routers.Get("/changepw", changePW())
+	Routers.Post("/changePW", doChangePW())
 
 	//other routers
-	Routers.Get("/about", controllers.About)
-	Routers.Get("/friendship", controllers.Friendship)
+	Routers.Get("/about", about())
+	Routers.Get("/friendship", friendship())
 }

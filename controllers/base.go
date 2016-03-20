@@ -6,23 +6,23 @@ import (
 
 	"github.com/labstack/echo"
 	"github.com/unrolled/render"
+    "github.com/labstack/echo/engine/standard"
 )
 
-var (
-	Render *render.Render
-)
+var Render *render.Render
 
 func Prepare() {
 	return
 }
 
-func About(c *echo.Context) error {
-	return Render.HTML(c.Response().Writer(), http.StatusOK, "about", nil)
+func About(c echo.Context) error {
+	return Render.HTML(c.Response().(*standard.Response).ResponseWriter, http.StatusOK, "about", nil)
 }
 
 
-func Friendship(c *echo.Context) error {
-	return Render.HTML(c.Response().Writer(), http.StatusOK, "friendship", nil)
+func Friendship(c echo.Context) error {
+	return Render.HTML(c.Response().(*standard.Response).ResponseWriter, http.StatusOK, "friendship", nil)
+
 }
 
 func CurrentUser() {
