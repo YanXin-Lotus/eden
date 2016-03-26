@@ -8,6 +8,15 @@ var (
     pageSize = 20
 )
 
+type Note struct {
+    ID        int32
+    Title     string
+    Content   string
+    CreatedBy int32
+    CreatedAt time.Time
+    UpdatedAt time.Time
+}
+
 type User struct {
 	ID        int32
 	Name      string
@@ -40,16 +49,20 @@ type ExtArt struct {
 	LastReplyName string
 }
 
-//query by pk:ID
+//user query by pk:ID
 func UserQuery(u *User) (err error) {
     return DB.First(&u).Error
 }
 
-//query by pk:ID
+//article query by pk:ID
 func ArtQuery(art *Article) (err error) {
     return DB.First(&art).Error
 }
 
+//note query by pk:ID
+func NoteQuery(n *Note) (err error) {
+    return DB.First(&n).Error
+}
 
 func ArtListQuery(page int, sort int) (list []ExtArt, err error) {
     err = DB.Table("article").Select("article.id, article.Title, article.category, article.create_at").Joins("inner join user on user.id = article.create_by").Scan(&list).Offset((page - 1) * pageSize).Limit(pageSize).Error
