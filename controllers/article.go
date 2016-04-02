@@ -3,30 +3,29 @@ package controllers
 import (
 	"net/http"
 
-	"github.com/labstack/echo"
-    "github.com/labstack/echo/engine/standard"
+	"github.com/gocraft/web"
 )
 
-func Index(c echo.Context) error {
-	return Render.HTML(c.Response().(*standard.Response).ResponseWriter, http.StatusOK, "index", nil)
+func (c *Context) Index(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
+	c.HTML(rw, http.StatusOK, "index", nil)
 }
 
-func Pagination(c echo.Context) error {
-	return c.String(http.StatusOK, "Pagination\n")
+func (c *Context) Pagination(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
+	c.JSON(rw, http.StatusAccepted, "Pagination")
 }
 
-func Category(c echo.Context) error {
-	return c.String(http.StatusOK, "Category\n")
+func (c *Context) Category(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
+	c.HTML(rw, http.StatusOK, "category", nil)
 }
 
-func Article(c echo.Context) error {
-	return nil
+func (c *Context) Article(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
+	c.HTML(rw, http.StatusOK, "detail", nil)
 }
 
-func EditArticle(c echo.Context) error {
-	return nil
+func (c *Context) EditArticle(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
+	c.HTML(rw, http.StatusOK, "edit", nil)
 }
 
-func DoEditArticle(c echo.Context) error {
-	return nil
+func (c *Context) DoEditArticle(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
+	return
 }

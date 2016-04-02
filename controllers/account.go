@@ -3,46 +3,45 @@ package controllers
 import (
 	"net/http"
 
-	"github.com/labstack/echo"
-    "github.com/labstack/echo/engine/standard"
+	"github.com/gocraft/web"
 )
 
-func Login(c echo.Context) error {
-	return Render.HTML(c.Response().(*standard.Response).ResponseWriter, http.StatusOK, "account/login", nil)
+func (c *Context) Login(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
+	c.HTML(rw, http.StatusOK, "account/login", nil)
 }
 
-func DoLogin(c echo.Context) error {
-	return c.Redirect(http.StatusContinue, "/")
+func (c *Context) DoLogin(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
+	c.Redirect(rw, req, "/")
 }
 
-func Signout(c echo.Context) error {
-	return nil
+func (c *Context) Signout(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
+	return
 }
 
-func Register(c echo.Context) error {
-	return Render.HTML(c.Response().(*standard.Response).ResponseWriter, http.StatusOK, "account/register", nil)
+func (c *Context) Register(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
+	c.HTML(rw, http.StatusOK, "account/register", nil)
 }
 
-func DoRegister(c echo.Context) error {
-	return c.Redirect(http.StatusContinue, "/")
+func (c *Context) DoRegister(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
+	c.Redirect(rw, req, "/")
 }
 
-func Info(c echo.Context) error {
-	return Render.HTML(c.Response().(*standard.Response).ResponseWriter, http.StatusOK, "account/info", nil)
+func (c *Context) Info(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
+	c.HTML(rw, http.StatusOK, "account/info", nil)
 }
 
-func EditInfo(c echo.Context) error {
-	return Render.HTML(c.Response().(*standard.Response).ResponseWriter, http.StatusOK, "account/editinfo", nil)
+func (c *Context) EditInfo(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
+	c.HTML(rw, http.StatusOK, "account/editinfo", nil)
 }
 
-func DoEditInfo(c echo.Context) error {
-	return c.Redirect(http.StatusContinue, "/info")
+func (c *Context) DoEditInfo(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
+	c.Redirect(rw, req, "/info")
 }
 
-func ChangePW(c echo.Context) error {
-	return Render.HTML(c.Response().(*standard.Response).ResponseWriter, http.StatusOK, "account/changepw", nil)
+func (c *Context) ChangePW(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
+	c.HTML(rw, http.StatusOK, "account/changepw", nil)
 }
 
-func DoChangePW(c echo.Context) error {
-	return c.Redirect(http.StatusContinue, "/info")
+func (c *Context) DoChangePW(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
+	c.Redirect(rw, req, "/info")
 }

@@ -1,54 +1,44 @@
 package routers
 
 import (
-	"github.com/labstack/echo"
-	mw "github.com/labstack/echo/middleware"
+	"github.com/gocraft/web"
+    "eden/controllers"
 )
 
 var (
-	Routers *echo.Echo
+	Routers *web.Router
 )
 
 func Init() {
 
-	Routers = echo.New()
-	// Debug mode
-	Routers.Debug()
+	Routers = web.New(controllers.Context{})
 
 	//------------
 	// Middleware
 	//------------
-    
-    //static files
-    Routers.Use(mw.Static("public"))
-
-	// Logger
-	Routers.Use(mw.Logger())
-
-	// Recover
-	Routers.Use(mw.Recover())
+    Routers.Middleware(web.LoggerMiddleware).Middleware(web.ShowErrorsMiddleware)    
 
 	//article routers
-	Routers.Get("/", index())
-	Routers.Get("/art/:id", article())
-	Routers.Get("/art/:id/edit", editArticle())
-	Routers.Post("/art/:id/edit", doEditArticle())
-	Routers.Get("/page/:id", pagination())
-	Routers.Get("/cat/:cat", category())
+	Routers.Get("/", (*controllers.Context).Index)
+	Routers.Get("/art/:id", (*controllers.Context).Article)
+	Routers.Get("/art/:id/edit", (*controllers.Context).EditArticle)
+	Routers.Post("/art/:id/edit", (*controllers.Context).DoEditArticle)
+	Routers.Get("/page/:id", (*controllers.Context).Pagination)
+	Routers.Get("/cat/:cat", (*controllers.Context).Category)
 
 	//account routers
-	Routers.Get("/login", login())
-	Routers.Post("/login", doLogin())
-	Routers.Get("/signout", signout())
-	Routers.Get("/register", register())
-	Routers.Post("/register", doRegister())
-	Routers.Get("/info", info())
-	Routers.Get("/editinfo", editInfo())
-	Routers.Post("/editinfo", doEditInfo())
-	Routers.Get("/changepw", changePW())
-	Routers.Post("/changePW", doChangePW())
+	Routers.Get("/login", (*controllers.Context).Login)
+	Routers.Post("/login", (*controllers.Context).DoLogin)
+	Routers.Get("/signout", (*controllers.Context).Signout)
+	Routers.Get("/register", (*controllers.Context).Register)
+	Routers.Post("/register", (*controllers.Context).DoRegister)
+	Routers.Get("/info", (*controllers.Context).Info)
+	Routers.Get("/editinfo", (*controllers.Context).EditInfo)
+	Routers.Post("/editinfo", (*controllers.Context).DoEditInfo)
+	Routers.Get("/changepw", (*controllers.Context).ChangePW)
+	Routers.Post("/changePW", (*controllers.Context).DoChangePW)
 
 	//other routers
-	Routers.Get("/about", about())
-	Routers.Get("/friendship", friendship())
+	Routers.Get("/about", (*controllers.Context).About)
+	Routers.Get("/friendship", (*controllers.Context).Friendship)
 }
