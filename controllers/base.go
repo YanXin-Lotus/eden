@@ -32,6 +32,9 @@ func (c *Context) About(rw web.ResponseWriter, req *web.Request, next web.NextMi
 	c.HTML(rw, http.StatusOK, "about", nil)
 }
 
+func (c *Context) NotFound(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
+    c.HTML(rw, http.StatusNotFound, "404", nil)
+}
 
 func (c *Context) Friendship(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
 	c.HTML(rw, http.StatusOK, "friendship", nil)

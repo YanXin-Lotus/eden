@@ -4,7 +4,7 @@ import (
 	"eden/models"
 )
 
-func ArtList(page int, sort int) (list []models.ArtList, err error) {
+func ArtList(page int, sort int) (list []models.ExtArt, err error) {
 	return nil, nil
 }
 
