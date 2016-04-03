@@ -16,7 +16,9 @@ func (c *Context) Index(rw web.ResponseWriter, req *web.Request, next web.NextMi
 }
 
 func (c *Context) Pagination(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
-    list, err := services.ArtList(0 ,0)
+    page := c.ParseParam2Int(req, "page")
+    sort := c.ParseParam2Int(req, "sort")
+    list, err := services.ArtList(page ,sort)
     if err != nil {
         c.NotFound(rw, req, next)
     }
@@ -24,7 +26,9 @@ func (c *Context) Pagination(rw web.ResponseWriter, req *web.Request, next web.N
 }
 
 func (c *Context) Category(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
-    list, err := services.ArtList(0, 0)
+    page := c.ParseParam2Int(req, "page")
+    sort := c.ParseParam2Int(req, "sort")
+    list, err := services.ArtList(page, sort)
     if err != nil {
         c.NotFound(rw, req, next)
     }

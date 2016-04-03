@@ -4,6 +4,7 @@ import (
     "eden/models"
     "eden/config"
     
+    "strconv"
 	"html/template"
 	"net/http"
     "time"
@@ -39,6 +40,15 @@ func (c *Context) NotFound(rw web.ResponseWriter, req *web.Request, next web.Nex
 func (c *Context) Friendship(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
 	c.HTML(rw, http.StatusOK, "friendship", nil)
 
+}
+
+func (c *Context) ParseParam2Int(req *web.Request, name string) int {
+    dataString := req.PathParams[name]
+    data, err := strconv.Atoi(dataString)
+    if err != nil {
+        panic(err)
+    }
+    return data
 }
 
 func (c *Context) Redirect(rw web.ResponseWriter, req *web.Request, path string) {
