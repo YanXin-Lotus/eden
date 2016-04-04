@@ -5,6 +5,7 @@ import (
     "eden/config"
     
     "strconv"
+    "reflect"
 	"html/template"
 	"net/http"
     "time"
@@ -23,6 +24,7 @@ var (
 type Context struct {
     *render.Render
     models.User
+    Data map[string]interface{}
 }
 
 func (c *Context) Prepare(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
@@ -39,7 +41,6 @@ func (c *Context) NotFound(rw web.ResponseWriter, req *web.Request, next web.Nex
 
 func (c *Context) Friendship(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
 	c.HTML(rw, http.StatusOK, "friendship", nil)
-
 }
 
 func (c *Context) ParseParam2Int(req *web.Request, name string) int {
@@ -49,6 +50,20 @@ func (c *Context) ParseParam2Int(req *web.Request, name string) int {
         panic(err)
     }
     return data
+}
+
+func (c *Context) ParseParam2Uint64(req *web.Request, name string) uint64 {
+    datastring := req.PathParams[name]
+    data, err := strconv.ParseUint(datastring, 10, 64)
+    if err != nil {
+        panic(err)
+    }
+    return data
+}
+
+func (c *Context) Parse2Struct(req *web.Request, obj interface{}) interface{} {
+    //t := reflect.TypeOf(obj)
+    return nil
 }
 
 func (c *Context) Redirect(rw web.ResponseWriter, req *web.Request, path string) {

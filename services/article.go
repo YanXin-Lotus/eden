@@ -12,6 +12,6 @@ func ShowArt(id uint64) (art *models.Article, err error) {
 	return nil, nil
 }
 
-func UpdateArt(id int32, art *models.Article) (err error) {
+func UpdateArt(id uint64, art *models.Article) (err error) {
 	return nil
 }

@@ -12,7 +12,9 @@ func (c *Context) Index(rw web.ResponseWriter, req *web.Request, next web.NextMi
     if err != nil {
         c.NotFound(rw, req, next)
     }
-	c.HTML(rw, http.StatusOK, "index", list)
+    c.Data["list"] = list
+    c.Data["user"] = c.CurrentUser
+	c.HTML(rw, http.StatusOK, "index", c.Data)
 }
 
 func (c *Context) Pagination(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
@@ -22,7 +24,9 @@ func (c *Context) Pagination(rw web.ResponseWriter, req *web.Request, next web.N
     if err != nil {
         c.NotFound(rw, req, next)
     }
-	c.HTML(rw, http.StatusOK, "pagination", list)
+    c.Data["list"] = list
+    c.Data["user"] = c.CurrentUser
+	c.HTML(rw, http.StatusOK, "pagination", c.Data)
 }
 
 func (c *Context) Category(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
@@ -32,15 +36,20 @@ func (c *Context) Category(rw web.ResponseWriter, req *web.Request, next web.Nex
     if err != nil {
         c.NotFound(rw, req, next)
     }
-	c.HTML(rw, http.StatusOK, "category", list)
+	c.Data["list"] = list
+    c.Data["user"] = c.CurrentUser
+	c.HTML(rw, http.StatusOK, "pagination", c.Data)
 }
 
 func (c *Context) Article(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
-    art, err := services.ShowArt(0)
+    id := c.ParseParam2Uint64(req, "id")
+    art, err := services.ShowArt(id)
     if err != nil {
         c.NotFound(rw, req, next)
     }
-	c.HTML(rw, http.StatusOK, "detail", art)
+	c.Data["art"] = art
+    c.Data["user"] = c.CurrentUser
+	c.HTML(rw, http.StatusOK, "pagination", c.Data)
 }
 
 func (c *Context) EditArticle(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
@@ -48,7 +57,8 @@ func (c *Context) EditArticle(rw web.ResponseWriter, req *web.Request, next web.
 }
 
 func (c *Context) DoEditArticle(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
-	err := services.UpdateArt(0, nil)
+    id := c.ParseParam2Uint64(req, "id")
+	err := services.UpdateArt(id, nil)
     if err != nil {
         c.NotFound(rw, req, next)
     }
