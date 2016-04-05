@@ -2,6 +2,7 @@ package models
 
 import (
 	"time"
+    "eden/config"
 )
 
 var (
@@ -9,16 +10,16 @@ var (
 )
 
 type Note struct {
-    ID        int32
+    ID        int
     Title     string
     Content   string
-    CreatedBy int32
+    CreatedBy int
     CreatedAt time.Time
     UpdatedAt time.Time
 }
 
 type User struct {
-	ID        int32
+	ID        int
 	Name      string
 	Email     string
 	Password  string
@@ -35,18 +36,22 @@ type Article struct {
 	Content   string
 	CreatedAt time.Time
 	UpdatedAt time.Time
-	CreatedBy int32
+	CreatedBy int
 	Hits      uint64
 }
 
 type ExtArt struct {
 	ID            uint64
-	CreatedBy     int32
+	CreatedBy     int
 	CreatedByName string
 	Title         string
 	LastReply     time.Time
-	LastReplyBy   int32
+	LastReplyBy   int
 	LastReplyName string
+}
+
+func (u User) IsAdmin() bool {
+    return u.Name == config.Config.Admin
 }
 
 //user query by pk:ID
@@ -59,9 +64,19 @@ func ArtQuery(art *Article) (err error) {
     return DB.First(&art).Error
 }
 
+//show article
+func ShowArt(id uint64) (exArt *ExtArt, err error) {
+    return nil, nil
+}
+
 //note query by pk:ID
 func NoteQuery(n *Note) (err error) {
     return DB.First(&n).Error
+}
+
+//update multifield
+func UpdateArt(art *Article) error {
+    return DB.Save(art).Error
 }
 
 func ArtListQuery(page int, sort int) (list []ExtArt, err error) {

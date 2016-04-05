@@ -15,6 +15,7 @@ type config struct {
     DBPassword     string
     DBName         string
     DBAddr         string
+    Admin          string
 }
 
 func init() {
