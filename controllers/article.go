@@ -8,7 +8,7 @@ import (
 )
 
 func (c *Context) Index(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
-    list, err := services.ArtList(0, 0)
+    list, err := services.ArtList(1, 0)
     if err != nil {
         c.NotFound(rw, req, next)
     }
@@ -57,8 +57,9 @@ func (c *Context) EditArticle(rw web.ResponseWriter, req *web.Request, next web.
 }
 
 func (c *Context) DoEditArticle(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
+    user := c.CurrentUser(req)
     id := c.ParseParam2Uint64(req, "id")
-	err := services.UpdateArt(id, nil)
+	err := services.UpdateArt(id, nil, user)
     if err != nil {
         c.NotFound(rw, req, next)
     }

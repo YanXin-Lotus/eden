@@ -16,6 +16,7 @@ type config struct {
     DBName         string
     DBAddr         string
     Admin          string
+    PWSecret       string
 }
 
 func init() {

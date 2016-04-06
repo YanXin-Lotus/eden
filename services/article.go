@@ -14,7 +14,11 @@ func ArtList(page int, sort int) (list []models.ExtArt, err error) {
 }
 
 func ShowArt(id uint64) (art *models.ExtArt, err error) {
-	return nil, nil
+    art, err = models.ShowArt(id)
+    if err != nil {
+        return nil, err
+    }
+	return art, nil
 }
 
 func UpdateArt(id uint64, art *models.Article, u *models.User) (err error) {
@@ -30,5 +34,9 @@ func UpdateArt(id uint64, art *models.Article, u *models.User) (err error) {
 }
 
 func DeleteArt(id uint64, u *models.User) (err error) {
-    return nil
+    if !u.IsAdmin() {
+        return fmt.Errorf("no access to delete this article")
+    }
+    
+    return models.DeleteArt(id)
 }
