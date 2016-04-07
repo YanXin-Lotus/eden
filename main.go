@@ -2,7 +2,7 @@ package main
 
 import (
     "net/http"
-	_ "eden/routers"
+	"eden/routers"
     _ "eden/models"
 )
 
