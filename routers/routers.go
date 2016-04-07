@@ -9,7 +9,7 @@ var (
 	Routers *web.Router
 )
 
-func Init() {
+func init() {
 
 	Routers = web.New(controllers.Context{})
 

@@ -2,13 +2,11 @@ package main
 
 import (
     "net/http"
-	"eden/routers"
+	_ "eden/routers"
+    _ "eden/models"
 )
 
 func main() {
-	//init routers
-	routers.Init()
-
 	//run
 	http.ListenAndServe("localhost:3000", routers.Routers)
 }

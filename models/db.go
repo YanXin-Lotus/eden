@@ -11,7 +11,7 @@ var (
 	DB gorm.DB
 )
 
-func ConnectDB() {
+func init() {
 	var err error
 	DB, err = gorm.Open("postgres", "user=postgres password=root dbname=eden sslmode=disable")
 	if err != nil {
