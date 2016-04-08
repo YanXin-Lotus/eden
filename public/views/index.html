@@ -1,1 +1,25 @@
-{{define "hello"}}Hello, {{.}}!{{end}}
+{{define "Title"}} 首页{{end}}
+
+{{define "Content"}}
+{{if .data.arts}}
+    <div class="ui container">
+        <div class="ui huge very relaxed list">
+            {{range .data.arts}}
+            <div class="item">
+                <img class="ui avatar image" src=""></img>
+                <div class="content">
+                    <a class="header" href="/">{{.Title}}</a>
+                    <div class="description">
+                        由 {{.Name}} 创建于 {{.CreatedAt}}
+                    </div>
+                </div>
+            </div>
+            {{end}}
+        </div>
+    </div>
+{{else}}
+<div class="ui container">
+    <h2>当前没有文章。</h2>
+</div>
+{{end}}
+{{end}}

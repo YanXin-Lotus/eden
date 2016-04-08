@@ -26,11 +26,16 @@ func init() {
 
 	err = DB.CreateTable(&User{}).Error
 	if err != nil {
-		fmt.Println("创建 User 表失败！")
+		fmt.Println("创建 User 表失败(请检查User表是否已经存在)！")
 	}
 
 	err = DB.CreateTable(&Article{}).Error
 	if err != nil {
-		fmt.Println("创建 Article 表失败！")
+		fmt.Println("创建 Article 表失败(请检查Article表是否已经存在)！")
+	}
+    
+    err = DB.CreateTable(&Note{}).Error
+	if err != nil {
+		fmt.Println("创建 Note 表失败(请检查Note表是否已经存在)！")
 	}
 }
