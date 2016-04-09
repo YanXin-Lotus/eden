@@ -1,0 +1,124 @@
+<div class="ui container">
+	<div class="ui segment">
+	    <div class="ui positive message" align="center">
+	    	<div class="header"> 注册成为 prpr.co 成员</div>
+	    	<p>用户协议: <b>请保持友好!</b></p>
+	    	<p>点击注册即确认您将遵守 prpr.co 的用户协议.</p>
+	    </div>
+	    <div class="ui horizontal divider">注册信息 reg info</div>
+		<form class="ui large form" method="post" id="reg-form">
+			<div class="field" id="email" align="center">
+				<label>邮箱地址 E-mail</label>
+				<input class="eight wide field" type="email" name="email" placeholder="e.g: joe@abc.com"></input>
+			</div>
+			<div class="field" id="username" align="center">
+				<label>用户名 Username</label>
+				<input class="eight wide field" type="text" name="username" placeholder="e.g: joe"></input>
+			</div>
+			<div class="field" id="password" align="center">
+				<label>密码 Password</label>
+				<input class="eight wide field" type="password" name="password" placeholder="e.g: *****"></input>
+			</div>
+			<div class="field" id="confirm" align="center">
+				<label>确认密码 Confirm password</label>
+				<input class="eight wide field" type="password" name="confirm" placeholder="e.g: *****"></input>
+			</div>
+			<div class="field" id="challenge" align="center">
+				<label>验证码 Captcha</label>
+				<input class="eight wide field" type="text" name="challenge"></input>
+			</div>
+			<div class="field" align="center">{{create_captcha}}</div>
+			<div class="ui error message"></div>
+			<div align="center">
+			<div class="ui green submit button" >确认注册</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="ui small modal">
+	<div class="header" id="message"></div>
+	<div class="content" id="content">
+		<p></p>
+	</div>
+	<div class="actions">
+		<div class="ui approve button">确定</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('.ui.form').form({
+		fields: {
+			email: {
+				identifier: 'email',
+				rules: [
+				{
+					type: 'empty',
+					prompt: '请输入邮件地址'
+				},
+				{
+					type: 'email',
+					prompt: '请输入有效的邮件地址'
+				}
+				]
+			},
+			username: {
+				identifier: 'username',
+				rules:[
+				{
+					type: 'empty',
+					prompt: '请输入用户名'
+				},
+				{
+					type: 'length[4]',
+				    prompt: '用户名长度须大于4,中文占两个字符'
+				}]
+			},
+			password: {
+				identifier: 'password',
+				rules:[
+				{
+					type: 'empty',
+					prompt: '请输入密码'
+				},
+				{
+					type: 'length[6]',
+				    prompt: '密码长度须大于6'
+				}]
+			},
+			captcha: {
+				identifier: 'captcha',
+				rules:[
+				{
+					type: 'empty',
+					prompt: '请输入验证码'
+				},
+				{
+					type: 'length[6]',
+				    prompt: '验证码长度须等于6'
+				}]
+			}
+		},
+	
+		onSuccess: function () {
+			$.post('/account/reg', 
+				$('#reg-form').serialize(),
+				function(data){
+					if (data.Ok == true) {
+						$('.small.modal').modal('show');
+						$('#message').text('操作成功');
+						$('#content').text('注册成功,3秒后将跳转到主页.')
+						var t = setTimeout('window.location.href = "/"', 3000)
+					} else {
+						$('.small.modal').modal('show');
+						$('#message').text('注册失败');
+						$('#content').text('注册失败,请返回重试,出错字段为' + data.Err)
+					}
+				}
+			)
+			return false
+		}
+	})
+})
+</script>

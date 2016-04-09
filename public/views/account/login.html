@@ -1,1 +1,115 @@
-<div>this is login tpl</div>
+<div class="ui grid">
+    <div class="five wide column"></div>    
+	<div class="six wide column">
+		<h2 class="ui teal center aligned header">
+			<img class="image" src="/static/logo.png">
+			<div class="content">登录到您的帐户</div>
+		</h2>
+		<form class="ui large form" id="login-form">
+			<div class="ui stacked segment">
+				<div class="field">
+					<div class="ui left icon input">
+						<i class="user icon"></i>
+						<input type="text" placeholder="帐户邮箱地址" name="username"></input>
+					</div>
+				</div>
+				<div class="field">
+					<div class="ui left icon input">
+						<i class="lock icon"></i>
+						<input type="password" placeholder="密码" name="password"></input>
+					</div>
+				</div>
+				<div class="field">
+					<div class="ui left icon input">
+						<i class="lock icon"></i>
+						<input type="text" placeholder="验证码" name="challenge"></input>
+					</div>
+				</div>
+				<div class="field" align="center">{{create_captcha}}</div>
+				<div class="ui error message"></div>
+				<div class="ui fluid large teal submit button">Login</div>
+			</div>
+			<div class="ui error message"></div>
+		</form>
+		<div class="ui message">
+			第一次来到 prpr ? <a href="/account/reg"> 注册账号 </a>
+		</div>
+	</div>
+	<div class="five wide column"></div>
+</div>
+
+<div class="ui small modal">
+	<div class="header" id="message"></div>
+	<div class="content" id="content">
+		<p></p>
+	</div>
+	<div class="actions">
+		<div class="ui approve button">确定</div>
+	</div>
+</div>
+
+<script src="/static/js/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('.ui.form').form({
+		fields: {
+			email: {
+				identifier: 'email',
+				rules: [
+				{
+					type: 'empty',
+					prompt: '请输入邮件地址'
+				},
+				{
+					type: 'email',
+					prompt: '请输入有效的邮件地址'
+				}
+				]
+			},
+			password: {
+				identifier: 'password',
+				rules:[
+				{
+					type: 'empty',
+					prompt: '请输入密码'
+				},
+				{
+					type: 'length[6]',
+				    prompt: '密码长度须大于6'
+				}]
+			},
+			captcha: {
+				identifier: 'captcha',
+				rules:[
+				{
+					type: 'empty',
+					prompt: '请输入验证码'
+				},
+				{
+					type: 'length[6]',
+				    prompt: '验证码长度须等于6'
+				}]
+			}
+		},
+	
+		onSuccess: function () {
+			$.post('/account/login', 
+				$('#login-form').serialize(),
+				function(data){
+					if (data.Ok == true) {
+						$('.small.modal').modal('show');
+						$('#message').text('操作成功');
+						$('#content').text('登陆成功,稍后将跳转至主页...')
+						var t = setTimeout('window.location.href = "/"', 1500)
+					} else {
+						$('.small.modal').modal('show');
+						$('#message').text('操作失败');
+						$('#content').text('登录失败,请返回重试,出错字段为' + data.Err)
+					}
+				}
+			)
+			return false
+		}
+	})
+})
+</script>
