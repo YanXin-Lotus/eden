@@ -13,6 +13,7 @@ import (
 	"github.com/gocraft/web"
 	"github.com/unrolled/render"
     "github.com/dgrijalva/jwt-go"
+    "github.com/mitchellh/mapstructure"
 )
 
 var (
@@ -60,9 +61,9 @@ func (c *Context) ParseParam2Uint64(req *web.Request, name string) uint64 {
     return data
 }
 
-func (c *Context) Parse2Struct(req *web.Request, obj interface{}) interface{} {
-    //t := reflect.TypeOf(obj)
-    return nil
+func (c *Context) Parse2Struct(req *web.Request, obj interface{}) (err error) {
+    err = mapstructure.Decode(req.Form, obj)
+    return err
 }
 
 func (c *Context) Redirect(rw web.ResponseWriter, req *web.Request, path string) {

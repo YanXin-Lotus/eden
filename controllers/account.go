@@ -2,6 +2,8 @@ package controllers
 
 import (
 	"net/http"
+    "eden/models"
+    "eden/services"
 
 	"github.com/gocraft/web"
 )
@@ -11,6 +13,16 @@ func (c *Context) Login(rw web.ResponseWriter, req *web.Request, next web.NextMi
 }
 
 func (c *Context) DoLogin(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
+    var user models.User
+    err := c.Parse2Struct(req, &user)
+    if err != nil {
+        c.Redirect(rw, req, "/login")
+    }
+    err = services.Login(&user)
+    if err != nil {
+        c.JSON(rw, http.StatusForbidden, &retJson{OK: false, Desc: "Error password"})
+    }
+    c.SetUser(&user, rw)
 	c.Redirect(rw, req, "/")
 }
 
