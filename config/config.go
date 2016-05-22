@@ -1,7 +1,6 @@
 package config
 
 import (
-    "github.com/astaxie/beego"
     "github.com/Unknwon/goconfig"
 )
 
@@ -22,12 +21,10 @@ type config struct {
 func init() {
     configFile, err := goconfig.LoadConfigFile("config/config.ini")
     if err != nil {
-        beego.Error(err)
         panic(err)
     }
     Config.JwtAuthKey, err = configFile.GetValue("Key", "JwtAuthKey")
     if err != nil {
-        beego.Error(err)
         panic(err)
     }
 }
