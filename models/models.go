@@ -29,7 +29,7 @@ type User struct {
 }
 
 type Article struct {
-	ID        uint64
+	ID        int
 	Title     string
 	Catgory   string
 	Keywords  string
@@ -41,7 +41,7 @@ type Article struct {
 }
 
 type ExtArt struct {
-	ID            uint64
+	ID            int
 	CreatedBy     int
 	CreatedByName string
 	Title         string
@@ -69,7 +69,7 @@ func ArtQuery(art *Article) (err error) {
 }
 
 //show article
-func ShowArt(id uint64) (exArt *ExtArt, err error) {
+func ShowArt(id int) (exArt *ExtArt, err error) {
     err = DB.Table("article").Select("article.id, article.Title, article.category, article.create_at, user.name").Joins("inner join user on user.id = article.create_by").Scan(&exArt).Error
     if err != nil {
         return nil, err
@@ -88,7 +88,7 @@ func UpdateArt(art *Article) error {
 }
 
 //delete article
-func DeleteArt(id uint64) (err error) {
+func DeleteArt(id int) (err error) {
     art := Article{ID: id}
     return DB.Delete(&art).Error
 }

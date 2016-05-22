@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	DB gorm.DB
+	DB *gorm.DB
 )
 
 func init() {

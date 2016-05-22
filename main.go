@@ -1,12 +1,13 @@
 package main
 
 import (
-    "net/http"
 	"eden/routers"
     _ "eden/models"
+	
+	"github.com/labstack/echo/engine/standard"
 )
 
 func main() {
 	//run
-	http.ListenAndServe("localhost:3000", routers.Routers)
+	routers.Routers.Run(standard.New(":2333"))
 }

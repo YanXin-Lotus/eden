@@ -4,64 +4,69 @@ import (
     "eden/services"
 	"net/http"
 
-	"github.com/gocraft/web"
+	"github.com/labstack/echo"
 )
 
-func (c *Context) Index(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
-    list, err := services.ArtList(1, 0)
+func Index(c echo.Context) error {
+    data := make(map[string]interface{})
+    list, err := services.ArtList("1", "0")
     if err != nil {
-        c.NotFound(rw, req, next)
+        return c.Redirect(http.StatusOK, "/404")
     }
-    c.Data["list"] = list
-    c.Data["user"] = c.CurrentUser
-	c.HTML(rw, http.StatusOK, "index", c.Data)
+    data["list"] = list
+    data["user"] = "currentuser"
+	return c.Render(http.StatusOK, "index", data)
 }
 
-func (c *Context) Pagination(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
-    page := c.ParseParam2Int(req, "page")
-    sort := c.ParseParam2Int(req, "sort")
+func Pagination(c echo.Context) error {
+    data := make(map[string]interface{})
+    page := c.Param("page")
+    sort := c.Param("sort")
     list, err := services.ArtList(page ,sort)
     if err != nil {
-        c.NotFound(rw, req, next)
+        return c.Redirect(http.StatusOK, "/404")
     }
-    c.Data["list"] = list
-    c.Data["user"] = c.CurrentUser
-	c.HTML(rw, http.StatusOK, "pagination", c.Data)
+    data["list"] = list
+    data["user"] = "currentuser"
+	return c.Render(http.StatusOK, "pagination", data)
 }
 
-func (c *Context) Category(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
-    page := c.ParseParam2Int(req, "page")
-    sort := c.ParseParam2Int(req, "sort")
+func Category(c echo.Context) error {
+    data := make(map[string]interface{})
+    page := c.Param("page")
+    sort := c.Param("sort")
     list, err := services.ArtList(page, sort)
     if err != nil {
-        c.NotFound(rw, req, next)
+        return c.Redirect(http.StatusOK, "/")
     }
-	c.Data["list"] = list
-    c.Data["user"] = c.CurrentUser
-	c.HTML(rw, http.StatusOK, "pagination", c.Data)
+	data["list"] = list
+    data["user"] = "currentuser"
+	return c.Render(http.StatusOK, "pagination", data)
 }
 
-func (c *Context) Article(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
-    id := c.ParseParam2Uint64(req, "id")
+func Article(c echo.Context) error {
+    data := make(map[string]interface{})
+    id := c.Param("id")
     art, err := services.ShowArt(id)
     if err != nil {
-        c.NotFound(rw, req, next)
+        return c.Redirect(http.StatusTemporaryRedirect, "/404")
     }
-	c.Data["art"] = art
-    c.Data["user"] = c.CurrentUser
-	c.HTML(rw, http.StatusOK, "pagination", c.Data)
+	data["art"] = art
+    data["user"] = "currentuser"
+	return c.Render(http.StatusOK, "detail", data)
 }
 
-func (c *Context) EditArticle(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
-	c.HTML(rw, http.StatusOK, "edit", nil)
+func EditArticle(c echo.Context) error {
+	return c.Render(http.StatusOK, "edit", nil)
 }
 
-func (c *Context) DoEditArticle(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
-    user := c.CurrentUser(req)
-    id := c.ParseParam2Uint64(req, "id")
+func DoEditArticle(c echo.Context) error {
+    user := currentUser(c)
+    data := make(map[string]interface{})
+    id := c.Param("id")
 	err := services.UpdateArt(id, nil, user)
     if err != nil {
-        c.NotFound(rw, req, next)
+        return c.Redirect(http.StatusTemporaryRedirect, "/404")
     }
-    c.HTML(rw, http.StatusOK, "detail", nil)
+    return c.Render(http.StatusOK, "detail", data)
 }

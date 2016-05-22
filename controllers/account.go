@@ -5,55 +5,50 @@ import (
     "eden/models"
     "eden/services"
 
-	"github.com/gocraft/web"
+	"github.com/labstack/echo"
 )
 
-func (c *Context) Login(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
-	c.HTML(rw, http.StatusOK, "account/login", nil)
+func Login(c echo.Context) error {
+	return c.Render(http.StatusOK, "login", nil)
 }
 
-func (c *Context) DoLogin(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
+func DoLogin(c echo.Context) error {
     var user models.User
-    err := c.Parse2Struct(req, &user)
+    err := services.Login(&user)
     if err != nil {
-        c.Redirect(rw, req, "/login")
+        return c.JSON(http.StatusForbidden, &retJson{OK: false, Desc: "Error password"})
     }
-    err = services.Login(&user)
-    if err != nil {
-        c.JSON(rw, http.StatusForbidden, &retJson{OK: false, Desc: "Error password"})
-    }
-    c.SetUser(&user, rw)
-	c.Redirect(rw, req, "/")
+	return c.Redirect(http.StatusTemporaryRedirect, "/")
 }
 
-func (c *Context) Signout(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
-	return
+func Signout(c echo.Context) error {
+	return c.Redirect(http.StatusTemporaryRedirect, "/")
 }
 
-func (c *Context) Register(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
-	c.HTML(rw, http.StatusOK, "account/register", nil)
+func Register(c echo.Context) error {
+	return c.Render(http.StatusOK, "account/register", nil)
 }
 
-func (c *Context) DoRegister(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
-	c.Redirect(rw, req, "/")
+func DoRegister(c echo.Context) error {
+	return c.JSON(http.StatusOK, nil)
 }
 
-func (c *Context) Info(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
-	c.HTML(rw, http.StatusOK, "account/info", nil)
+func Info(c echo.Context) error {
+	return c.Render(http.StatusOK, "info", nil)
 }
 
-func (c *Context) EditInfo(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
-	c.HTML(rw, http.StatusOK, "account/editinfo", nil)
+func EditInfo(c echo.Context) error {
+	return c.Render(http.StatusOK, "edit", nil)
 }
 
-func (c *Context) DoEditInfo(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
-	c.Redirect(rw, req, "/info")
+func DoEditInfo(c echo.Context) error {
+	return c.JSON(http.StatusOK, nil)
 }
 
-func (c *Context) ChangePW(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
-	c.HTML(rw, http.StatusOK, "account/changepw", nil)
+func ChangePW(c echo.Context) error {
+	return c.Render(http.StatusOK, "changepw", nil)
 }
 
-func (c *Context) DoChangePW(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
-	c.Redirect(rw, req, "/info")
+func DoChangePW(c echo.Context) error {
+	return c.JSON(http.StatusOK, nil)
 }
