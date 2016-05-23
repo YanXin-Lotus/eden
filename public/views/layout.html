@@ -1,14 +1,34 @@
 <html>
-    <header>
+    <head>
         <meta charset="utf-8"></meta>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
         <title>{{template "Title" .}} | Powered by eden</title>
-        <script src="public/static/js/semantic.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="public/static/css/semantic.min.css"></link>
-    </header>
+        <script src="public/static/js/vendor/foundation.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="public/static/css/foundation.min.css"></link>
+    </head>
     <body>
-        <div class="ui container">{{template "Content" .}}</div>
+        <div class="off-canvas-content">
+            <nav class="marketing-topbar show-for-medium">
+                <ul class="menu">
+                    <li class="topbar-title">
+                        <a href="/">
+                            <img src="public/static/img/logo.png">
+                            Lotus
+                        </a>
+                    </li>
+                </ul>
+                <ul class="dropdown menu">
+                    <li class="is-dropdown-submenu-parent opens-right">
+                        <a tabindex="0" href="/">主页</a>
+                    </li>
+                    <li class="menuitem">
+                        <a class="button" href="/login">登录</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="expanded row">{{template "Content" .}}</div>
+        </div>
     </body>
     <footer>
         <div class="ui container">

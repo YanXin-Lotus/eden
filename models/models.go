@@ -18,6 +18,12 @@ type Note struct {
     UpdatedAt time.Time
 }
 
+type Catgory struct {
+    ID        int
+    Name      string
+    Desc      string
+}
+
 type User struct {
 	ID        int
 	Name      string
@@ -31,7 +37,7 @@ type User struct {
 type Article struct {
 	ID        int
 	Title     string
-	Catgory   string
+	Catgory   int
 	Keywords  string
 	Content   string
 	CreatedAt time.Time
@@ -42,9 +48,11 @@ type Article struct {
 
 type ExtArt struct {
 	ID            int
+    Catgory       string
 	CreatedBy     int
 	CreatedByName string
 	Title         string
+    CreatedAt     time.Time
 	LastReply     time.Time
 	LastReplyBy   int
 	LastReplyName string
