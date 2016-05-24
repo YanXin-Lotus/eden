@@ -13,7 +13,7 @@ var (
 
 func init() {
 	var err error
-	DB, err = gorm.Open("mysql", "root:root@/prpr?charset=utf8&parseTime=True&loc=Local")
+	DB, err = gorm.Open("mysql", "root:root@/eden?charset=utf8&parseTime=True&loc=Local")
 	if err != nil {
 		fmt.Println(err)
 		panic(err)

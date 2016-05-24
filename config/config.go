@@ -23,7 +23,7 @@ func init() {
     if err != nil {
         panic(err)
     }
-    Config.JwtAuthKey, err = configFile.GetValue("Key", "JwtAuthKey")
+    Config.JwtAuthKey, err = configFile.GetValue("Secret", "JwtAuthKey")
     if err != nil {
         panic(err)
     }

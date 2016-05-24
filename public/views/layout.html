@@ -1,69 +1,45 @@
 <html>
-    <head>
-        <meta charset="utf-8"></meta>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-        <title>{{template "Title" .}} | Powered by eden</title>
-        <script src="public/static/js/vendor/foundation.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="public/static/css/foundation.min.css"></link>
-    </head>
-    <body>
-        <div class="off-canvas-content">
-            <nav class="marketing-topbar show-for-medium">
-                <ul class="menu">
-                    <li class="topbar-title">
-                        <a href="/">
-                            <img src="public/static/img/logo.png">
-                            Lotus
-                        </a>
-                    </li>
-                </ul>
-                <ul class="dropdown menu">
-                    <li class="is-dropdown-submenu-parent opens-right">
-                        <a tabindex="0" href="/">主页</a>
-                    </li>
-                    <li class="menuitem">
-                        <a class="button" href="/login">登录</a>
-                    </li>
-                </ul>
-            </nav>
-            <div class="expanded row">{{template "Content" .}}</div>
-        </div>
-    </body>
-    <footer>
-        <div class="ui container">
-            <div class="ui black inverted vertical footer segment">
-                <div class="ui center aligned container">
-                    <div class="ui stackable inverted grid">
-                        <div class="three wide column">
-                            <h4 class="ui inverted header">Community</h4>
-                            <div class="ui inverted link list">
-                                <a class="item">index</a>
-                                <a class="item">game</a>
-                                <a class="item">news</a>
-                                <a class="item">anime</a>
-                            </div>
-                        </div>
-                        <div class="three wide column">
-                            <h4 class="ui inverted header">main page</h4>
-                            <div class="ui inverted link list">
-                                <a class="item">index</a>
-                                <a class="item">cs</a>
-                                <a class="item">other</a>
-                            </div>
-                        </div>
-                        <div class="seven wide column">
-                            <h4>eden project</h4>
-                            <p>visit project on github</p>
-                        </div>
+<head>
+    <meta charset="utf-8"></meta>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <title>{{template "Title" .}} | Powered by eden</title>
+    <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"></link>
+    <link rel="stylesheet" type="text/css" href="public/static/css/bootstrap-material-design.min.css"></link>
+    <link rel="stylesheet" type="text/css" href="public/static/css/ripples.min.css"></link>
+</head>
+<body>
+    <div class="container">
+        <div class="nav nav-tabs" style="margin-bottom:15px;"></div>
+        <div class="container">
+            <div class="col-md-8">{{template "Content" .}}</div>
+            <div class="col-md-4">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Username</h3>
                     </div>
-                    <div class="ui inverted section divider"></div>
-                    <img class="ui centered mini image" src="/"></img>
-                    <div class="ui horizontal inverted small divided link list">
-                        <a class="item" href="/" target="_blank">powered by eden</a>
+                    <div class="panel-body">
+                        <div>user detail info</div>
                     </div>
                 </div>
             </div>
         </div>
-    </footer>
+        <div class="container">
+            <div class="col-md3"></div>
+            <div class="col-md6">
+                <div class="bs-component">
+                    <blockquote>
+                        <p>Powered by Eden. Eden is a lovely blog app written in golang using many open source project.</p>
+                        <small>Under license MIT, by Lotus.</small>
+                    </blockquote>
+                </div>
+            </div>
+            <div class="col-md3"></div>
+        </div>
+    </div>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="public/static/js/jquery-2.2.4.min.js"></script>
+    <script src="public/static/js/material.min.js"></script>
+    <script src="public/static/js/ripples.min.js"></script>
+</body>
 </html>
