@@ -2,7 +2,7 @@ package routers
 
 import (
 	"net/http"
-	"eden/config"
+	//"eden/config"
 	"eden/models"
     "eden/controllers"
 	"github.com/qor/qor"
@@ -27,7 +27,7 @@ func init() {
 	//------------   
 	Routers.Use(middleware.Logger())
 	Routers.Use(middleware.Static("/static"))
-	Routers.Use(middleware.JWT([]byte(config.Config.JwtAuthKey)))
+	//Routers.Use(middleware.JWT([]byte(config.Config.JwtAuthKey)))
 	
 	//article routers
 	Routers.Get("/", controllers.Index)

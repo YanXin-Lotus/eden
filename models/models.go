@@ -48,14 +48,11 @@ type Article struct {
 
 type ExtArt struct {
 	ID            int
-    Catgory       string
+    Username      string
 	CreatedBy     int
-	CreatedByName string
+	Category      string
 	Title         string
     CreatedAt     time.Time
-	LastReply     time.Time
-	LastReplyBy   int
-	LastReplyName string
 }
 
 func (u User) IsAdmin() bool {
@@ -78,7 +75,7 @@ func ArtQuery(art *Article) (err error) {
 
 //show article
 func ShowArt(id int) (exArt *ExtArt, err error) {
-    err = DB.Table("article").Select("article.id, article.Title, article.category, article.create_at, user.name").Joins("inner join user on user.id = article.create_by").Scan(&exArt).Error
+    err = DB.Table("article").Select("article.id, article.Title, category.name as category, article.create_at, user.name as username").Joins("inner join user on user.id = article.create_by").Joins("inner join category on category.id = article.category").Scan(&exArt).Error
     if err != nil {
         return nil, err
     }

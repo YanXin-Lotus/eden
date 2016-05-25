@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
 var (
@@ -13,7 +13,7 @@ var (
 
 func init() {
 	var err error
-	DB, err = gorm.Open("mysql", "root:root@/eden?charset=utf8&parseTime=True&loc=Local")
+	DB, err = gorm.Open("postgres", "host=localhost user=postgres dbname=eden sslmode=disable password=root")
 	if err != nil {
 		fmt.Println(err)
 		panic(err)
