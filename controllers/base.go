@@ -44,9 +44,12 @@ func SetUser(user *models.User, c echo.Context) error {
     return nil
 }
 
-func currentUser(c echo.Context) *models.User {
+func currentUser(c *echo.Context) *models.User {
     token := c.Get("user").(*jwt.Token)
-    user := token.Claims["user"].(models.User)
+    user, ok := token.Claims["user"].(models.User)
+    if !ok {
+        return nil
+    }
 	return &user
 }
 
