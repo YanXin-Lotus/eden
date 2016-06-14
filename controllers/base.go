@@ -32,7 +32,7 @@ func (Auth) LogoutURL(*admin.Context) string {
 }
 
 func (Auth) GetCurrentUser(c *admin.Context) qor.CurrentUser {
-	token := c.Request.Header.Get("user").(*jwt.Token)
+	token := c.Request.Header.Get("user")
 	user, ok := token.Claims["user"].(models.User)
 	if !ok {
 		return nil
