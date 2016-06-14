@@ -3,13 +3,14 @@ package routers
 import (
 	"net/http"
 	//"eden/config"
+	"eden/controllers"
 	"eden/models"
-    "eden/controllers"
-	"github.com/qor/qor"
-	"github.com/qor/admin"
+
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/engine/standard"
 	"github.com/labstack/echo/middleware"
+	"github.com/qor/admin"
+	"github.com/qor/qor"
 )
 
 var (
@@ -19,16 +20,16 @@ var (
 func init() {
 
 	Routers = echo.New()
-	
+
 	Routers.SetRenderer(controllers.T)
 
 	//------------
 	// Middleware
-	//------------   
+	//------------
 	Routers.Use(middleware.Logger())
 	Routers.Use(middleware.Static("/static"))
 	//Routers.Use(middleware.JWT([]byte(config.Config.JwtAuthKey)))
-	
+
 	//article routers
 	Routers.Get("/", controllers.Index)
 	Routers.Get("/art/:id", controllers.Article)
@@ -55,15 +56,16 @@ func init() {
 
 	// Initalize
 	Admin := admin.New(&qor.Config{DB: models.DB})
+	Admin.SetAuth(&controllers.Auth{})
 	Admin.SetSiteName("eden admin interface")
 
 	// Create resources from GORM-backend model
-	Admin.AddResource(&models.User{},  &admin.Config{Menu: []string{"用户管理"}})
-	Admin.AddResource(&models.Article{},  &admin.Config{Menu: []string{"文章管理"}})
+	Admin.AddResource(&models.User{}, &admin.Config{Menu: []string{"用户管理"}})
+	Admin.AddResource(&models.Article{}, &admin.Config{Menu: []string{"文章管理"}})
 
 	//todo: access control
 	// amount to /admin, so visit `/admin` to view the admin interface
 	mux := http.NewServeMux()
 	Admin.MountTo("/admin", mux)
-    Routers.Any("/admin/*", standard.WrapHandler(mux))
+	Routers.Any("/admin/*", standard.WrapHandler(mux))
 }
