@@ -9,7 +9,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/dgrijalva/jwt-go"
+	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo"
 	"github.com/qor/admin"
 	"github.com/qor/qor"
@@ -32,7 +32,10 @@ func (Auth) LogoutURL(*admin.Context) string {
 }
 
 func (Auth) GetCurrentUser(c *admin.Context) qor.CurrentUser {
-	token := c.Request.Header.Get("user")
+	tokenString := c.Request.Header.Get("Authorization")
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, err){
+		
+	})
 	user, ok := token.Claims["user"].(models.User)
 	if !ok {
 		return nil
@@ -64,7 +67,7 @@ func SetUser(user *models.User, c echo.Context) error {
 	if err != nil {
 		return err
 	}
-	c.Response().Header().Set("Authorization", "bear "+tokenString)
+	c.Response().Header().Set("Authorization", tokenString)
 	return nil
 }
 
