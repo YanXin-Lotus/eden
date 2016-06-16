@@ -34,12 +34,8 @@ func QueryArt(idStr string) (art *models.ExtArt, err error) {
 	return art, nil
 }
 
-func UpdateArt(idStr string, art *models.Article, u *models.User) (err error) {
-	id, err := strconv.Atoi(idStr)
-	if err != nil {
-		return err
-	}
-	originArt := models.Article{ID: id}
+func UpdateArt(art *models.Article, u *models.User) (err error) {
+	originArt := models.Article{ID: art.ID}
 	err = models.ArtQuery(&originArt)
 	if err != nil {
 		return err

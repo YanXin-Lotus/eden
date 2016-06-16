@@ -15,7 +15,7 @@ func Index(c echo.Context) error {
 		return c.Redirect(http.StatusOK, "/404")
 	}
 	data["list"] = list
-	data["user"] = currentUser(&c)
+	data["user"] = currentUser(c)
 	return c.Render(http.StatusOK, "index", data)
 }
 
@@ -28,7 +28,7 @@ func Pagination(c echo.Context) error {
 		return c.Redirect(http.StatusOK, "/404")
 	}
 	data["list"] = list
-	data["user"] = currentUser(&c)
+	data["user"] = currentUser(c)
 	return c.Render(http.StatusOK, "pagination", data)
 }
 
@@ -41,7 +41,7 @@ func Category(c echo.Context) error {
 		return c.Redirect(http.StatusOK, "/")
 	}
 	data["list"] = list
-	data["user"] = currentUser(&c)
+	data["user"] = currentUser(c)
 	return c.Render(http.StatusOK, "pagination", data)
 }
 
@@ -65,17 +65,16 @@ func EditArticle(c echo.Context) error {
 		return c.Redirect(http.StatusOK, "/404")
 	}
 	data["art"] = art
-	data["user"] = currentUser(&c)
+	data["user"] = currentUser(c)
 	return c.Render(http.StatusOK, "edit", data)
 }
 
 //not finish, need param bind(user)
 func DoEditArticle(c echo.Context) error {
 	data := make(map[string]interface{})
-	id := c.Param("id")
-	user := currentUser(&c)
+	user := currentUser(c)
 	var art models.Article
-	err := services.UpdateArt(&art, nil, user)
+	err := services.UpdateArt(&art, user)
 	if err != nil {
 		return c.Redirect(http.StatusTemporaryRedirect, "/404")
 	}

@@ -33,15 +33,18 @@ func (Auth) LogoutURL(*admin.Context) string {
 }
 
 func (Auth) GetCurrentUser(c *admin.Context) qor.CurrentUser {
-	token := c.Request.Header.Get("user")
-	user, ok := token.Claims["user"].(models.User)
-	if !ok {
+	session, _ := SessionStore.Get(c.Request, "eden")
+	suser := session.Values["user"]
+	if suser == nil {
 		return nil
+	} else {
+		user := suser.(*models.User)
+		if !user.IsAdmin() {
+			return nil
+		} else {
+			return user
+		}
 	}
-	if !user.IsAdmin() {
-		return nil
-	}
-	return &user
 }
 
 func About(c echo.Context) error {
@@ -64,7 +67,7 @@ func SetUser(user *models.User, c echo.Context) error {
 	return nil
 }
 
-func currentUser(c *echo.Context) *models.User {
+func currentUser(c echo.Context) *models.User {
 	session, _ := SessionStore.Get(c.Request().(*standard.Request).Request, "eden")
 	user := session.Values["user"]
 	if user == nil {
