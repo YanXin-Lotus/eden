@@ -1,21 +1,22 @@
 package controllers
 
 import (
-	"eden/config"
 	"eden/models"
 
+	"encoding/gob"
 	"html/template"
 	"io"
 	"net/http"
-	"time"
 
-	"github.com/dgrijalva/jwt-go"
+	"github.com/gorilla/sessions"
 	"github.com/labstack/echo"
+	"github.com/labstack/echo/engine/standard"
 	"github.com/qor/admin"
 	"github.com/qor/qor"
 )
 
 var T *Template
+var SessionStore *sessions.CookieStore
 
 type Template struct {
 	templates *template.Template
@@ -55,26 +56,22 @@ func Friendship(c echo.Context) error {
 	return c.Render(http.StatusOK, "friendship", nil)
 }
 
-//jwt auth
+//set session
 func SetUser(user *models.User, c echo.Context) error {
-	token := jwt.New(jwt.SigningMethodHS256)
-	token.Claims["user"] = user
-	token.Claims["exp"] = time.Now().Add(time.Hour * 720).Unix()
-	tokenString, err := token.SignedString([]byte(config.Config.JwtAuthKey))
-	if err != nil {
-		return err
-	}
-	c.Response().Header().Set("Authorization", "bear "+tokenString)
+	session, _ := SessionStore.Get(c.Request().(*standard.Request).Request, "eden")
+	session.Values["user"] = user
+	session.Save(c.Request().(*standard.Request).Request, c.Response().(*standard.Response).ResponseWriter)
 	return nil
 }
 
 func currentUser(c *echo.Context) *models.User {
-	token := c.Get("user").(*jwt.Token)
-	user, ok := token.Claims["user"].(models.User)
-	if !ok {
+	session, _ := SessionStore.Get(c.Request().(*standard.Request).Request, "eden")
+	user := session.Values["user"]
+	if user == nil {
 		return nil
+	} else {
+		return user.(*models.User)
 	}
-	return &user
 }
 
 func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
@@ -82,6 +79,8 @@ func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Con
 }
 
 func init() {
+	gob.Register(&models.User{})
+	SessionStore = sessions.NewCookieStore([]byte("I'mSecretKey"))
 	T = &Template{
 		templates: template.Must(template.ParseGlob("public/views/*.html")),
 	}
