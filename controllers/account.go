@@ -1,15 +1,15 @@
 package controllers
 
 import (
+	"eden/models"
+	"eden/services"
 	"net/http"
-    "eden/models"
-    "eden/services"
 
 	"github.com/labstack/echo"
 )
 
 func Login(c echo.Context) error {
-	user := currentUser(&c)
+	user := currentUser(c)
 	if user != nil {
 		return c.Redirect(http.StatusTemporaryRedirect, "/")
 	}
@@ -18,11 +18,15 @@ func Login(c echo.Context) error {
 
 //not finish, need param bind(user)
 func DoLogin(c echo.Context) error {
-    var user models.User
-    err := services.Login(&user)
-    if err != nil {
-        return c.JSON(http.StatusForbidden, &retJson{OK: false, Desc: "Error password"})
-    }
+	var user models.User
+	err := c.Bind(&user)
+	if err != nil {
+		return c.JSON(http.StatusAccepted, &retJson{OK:false, Desc:"Binding user error!"})
+	}
+	err = services.Login(&user)
+	if err != nil {
+		return c.JSON(http.StatusForbidden, &retJson{OK: false, Desc: "Error password"})
+	}
 	return c.Redirect(http.StatusTemporaryRedirect, "/")
 }
 
@@ -31,7 +35,7 @@ func Signout(c echo.Context) error {
 }
 
 func Register(c echo.Context) error {
-	user := currentUser(&c)
+	user := currentUser(c)
 	if user != nil {
 		return c.Redirect(http.StatusTemporaryRedirect, "/")
 	}
@@ -39,11 +43,24 @@ func Register(c echo.Context) error {
 }
 
 func DoRegister(c echo.Context) error {
+	cuser := currentUser(c)
+	if cuser != nil {
+		return c.Redirect(http.StatusTemporaryRedirect, "/")
+	}
+	var user models.User
+	err := c.Bind(&user)
+	if err != nil {
+		return c.JSON(http.StatusAccepted, &retJson{OK:false, Desc:"Binding user error!"})
+	}
+	err = services.Register(&user)
+	if err != nil {
+		return c.JSON(http.StatusAccepted, &retJson{OK:false, Desc:"register error!"})
+	}
 	return c.JSON(http.StatusOK, nil)
 }
 
 func Info(c echo.Context) error {
-	user := currentUser(&c)
+	user := currentUser(c)
 	if user == nil {
 		return c.Redirect(http.StatusTemporaryRedirect, "/login")
 	}
@@ -51,7 +68,7 @@ func Info(c echo.Context) error {
 }
 
 func EditInfo(c echo.Context) error {
-	user := currentUser(&c)
+	user := currentUser(c)
 	if user == nil {
 		return c.Redirect(http.StatusTemporaryRedirect, "/login")
 	}
@@ -59,7 +76,7 @@ func EditInfo(c echo.Context) error {
 }
 
 func DoEditInfo(c echo.Context) error {
-	user := currentUser(&c)
+	user := currentUser(c)
 	if user == nil {
 		return c.Redirect(http.StatusTemporaryRedirect, "/login")
 	}
@@ -67,7 +84,7 @@ func DoEditInfo(c echo.Context) error {
 }
 
 func ChangePW(c echo.Context) error {
-	user := currentUser(&c)
+	user := currentUser(c)
 	if user == nil {
 		return c.Redirect(http.StatusTemporaryRedirect, "/login")
 	}
@@ -75,7 +92,7 @@ func ChangePW(c echo.Context) error {
 }
 
 func DoChangePW(c echo.Context) error {
-	user := currentUser(&c)
+	user := currentUser(c)
 	if user == nil {
 		return c.Redirect(http.StatusTemporaryRedirect, "/login")
 	}

@@ -1,9 +1,9 @@
 package main
 
 import (
+	_ "eden/models"
 	"eden/routers"
-    _ "eden/models"
-	
+
 	"github.com/labstack/echo/engine/standard"
 )
 
