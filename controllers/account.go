@@ -19,7 +19,11 @@ func Login(c echo.Context) error {
 //not finish, need param bind(user)
 func DoLogin(c echo.Context) error {
 	var user models.User
-	err := services.Login(&user)
+	err := c.Bind(&user)
+	if err != nil {
+		return c.JSON(http.StatusAccepted, &retJson{OK:false, Desc:"Binding user error!"})
+	}
+	err = services.Login(&user)
 	if err != nil {
 		return c.JSON(http.StatusForbidden, &retJson{OK: false, Desc: "Error password"})
 	}
@@ -43,6 +47,19 @@ func Register(c echo.Context) error {
 }
 
 func DoRegister(c echo.Context) error {
+	cuser := currentUser(c)
+	if cuser != nil {
+		return c.Redirect(http.StatusTemporaryRedirect, "/")
+	}
+	var user models.User
+	err := c.Bind(&user)
+	if err != nil {
+		return c.JSON(http.StatusAccepted, &retJson{OK:false, Desc:"Binding user error!"})
+	}
+	err = services.Register(&user)
+	if err != nil {
+		return c.JSON(http.StatusAccepted, &retJson{OK:false, Desc:"register error!"})
+	}
 	return c.JSON(http.StatusOK, nil)
 }
 
