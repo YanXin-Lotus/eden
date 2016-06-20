@@ -4,7 +4,8 @@ import (
 	"fmt"
 
 	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
+	//_ "github.com/jinzhu/gorm/dialects/postgres"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
 var (
@@ -13,9 +14,9 @@ var (
 
 func init() {
 	var err error
-	DB, err = gorm.Open("postgres", "host=localhost user=postgres dbname=eden sslmode=disable password=root")
+	//DB, err = gorm.Open("postgres", "host=localhost user=postgres dbname=eden sslmode=disable password=root")
+	DB, err = gorm.Open("mysql", "root:root@/eden?charset=utf8&parseTime=True&loc=Local")
 	if err != nil {
-		fmt.Println(err)
 		panic(err)
 	}
 
@@ -33,8 +34,8 @@ func init() {
 	if err != nil {
 		fmt.Println("创建 Article 表失败(请检查Article表是否已经存在)！")
 	}
-    
-    err = DB.CreateTable(&Note{}).Error
+
+	err = DB.CreateTable(&Note{}).Error
 	if err != nil {
 		fmt.Println("创建 Note 表失败(请检查Note表是否已经存在)！")
 	}

@@ -60,7 +60,7 @@ func Friendship(c echo.Context) error {
 }
 
 //set session
-func SetUser(user *models.User, c echo.Context) error {
+func setUser(user *models.User, c echo.Context) error {
 	session, _ := SessionStore.Get(c.Request().(*standard.Request).Request, "eden")
 	session.Values["user"] = user
 	session.Save(c.Request().(*standard.Request).Request, c.Response().(*standard.Response).ResponseWriter)
@@ -75,6 +75,12 @@ func currentUser(c echo.Context) *models.User {
 	} else {
 		return user.(*models.User)
 	}
+}
+
+func delSession(c echo.Context) error {
+	session, _ := SessionStore.Get(c.Request().(*standard.Request).Request, "eden")
+	session.Values["user"] = nil
+	return session.Save(c.Request().(*standard.Request).Request, c.Response().(*standard.Response).ResponseWriter)
 }
 
 func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Context) error {

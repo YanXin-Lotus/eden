@@ -23,7 +23,11 @@ func DoLogin(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusForbidden, &retJson{OK: false, Desc: "Error password"})
 	}
-	return c.Redirect(http.StatusTemporaryRedirect, "/")
+	err = setUser(&user, c)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, &retJson{OK: false, Desc: "Error set session"})
+	}
+	return c.JSON(http.StatusOK, &retJson{OK: true, Desc: ""})
 }
 
 func Signout(c echo.Context) error {
