@@ -37,14 +37,12 @@ func (Auth) GetCurrentUser(c *admin.Context) qor.CurrentUser {
 	suser := session.Values["user"]
 	if suser == nil {
 		return nil
-	} else {
-		user := suser.(*models.User)
-		if !user.IsAdmin() {
-			return nil
-		} else {
-			return user
-		}
 	}
+	user := suser.(*models.User)
+	if !user.IsAdmin() {
+		return nil
+	}
+	return user
 }
 
 func About(c echo.Context) error {
@@ -72,9 +70,8 @@ func currentUser(c echo.Context) *models.User {
 	user := session.Values["user"]
 	if user == nil {
 		return nil
-	} else {
-		return user.(*models.User)
 	}
+	return user.(*models.User)
 }
 
 func delSession(c echo.Context) error {

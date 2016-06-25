@@ -69,14 +69,17 @@ func EditArticle(c echo.Context) error {
 	return c.Render(http.StatusOK, "edit", data)
 }
 
-//not finish, need param bind(user)
 func DoEditArticle(c echo.Context) error {
 	data := make(map[string]interface{})
 	user := currentUser(c)
 	var art models.Article
-	err := services.UpdateArt(&art, user)
+	err := c.Bind(art)
 	if err != nil {
-		return c.Redirect(http.StatusTemporaryRedirect, "/404")
+		return c.JSON(http.StatusOK, &retJson{OK: false, Desc: "err bind article"})
+	}
+	err = services.UpdateArt(&art, user)
+	if err != nil {
+		return c.JSON(http.StatusOK, &retJson{OK: false, Desc: "err update article"})
 	}
 	return c.Render(http.StatusOK, "detail", data)
 }

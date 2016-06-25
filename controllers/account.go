@@ -16,7 +16,6 @@ func Login(c echo.Context) error {
 	return c.Render(http.StatusOK, "login", nil)
 }
 
-//not finish, need param bind(user)
 func DoLogin(c echo.Context) error {
 	var user models.User
 	err := c.Bind(&user)
@@ -35,6 +34,7 @@ func DoLogin(c echo.Context) error {
 }
 
 func Signout(c echo.Context) error {
+	delSession(c)
 	return c.Redirect(http.StatusTemporaryRedirect, "/")
 }
 
@@ -43,7 +43,7 @@ func Register(c echo.Context) error {
 	if user != nil {
 		return c.Redirect(http.StatusTemporaryRedirect, "/")
 	}
-	return c.Render(http.StatusOK, "account/register", nil)
+	return c.Render(http.StatusOK, "register", nil)
 }
 
 func DoRegister(c echo.Context) error {
@@ -64,23 +64,29 @@ func DoRegister(c echo.Context) error {
 }
 
 func Info(c echo.Context) error {
+	data := make(map[string]interface{})
 	user := currentUser(c)
 	if user == nil {
 		return c.Redirect(http.StatusTemporaryRedirect, "/login")
 	}
-	return c.Render(http.StatusOK, "info", nil)
+	data["user"] = user
+	return c.Render(http.StatusOK, "info", data)
 }
 
 func EditInfo(c echo.Context) error {
+	data := make(map[string]interface{})
 	user := currentUser(c)
 	if user == nil {
 		return c.Redirect(http.StatusTemporaryRedirect, "/login")
 	}
-	return c.Render(http.StatusOK, "edit", nil)
+	data["user"] = user
+	return c.Render(http.StatusOK, "edit", data)
 }
 
 func DoEditInfo(c echo.Context) error {
+	data := make(map[string]interface{})
 	user := currentUser(c)
+	data["user"] = user
 	if user == nil {
 		return c.Redirect(http.StatusTemporaryRedirect, "/login")
 	}
@@ -88,7 +94,9 @@ func DoEditInfo(c echo.Context) error {
 }
 
 func ChangePW(c echo.Context) error {
+	data := make(map[string]interface{})
 	user := currentUser(c)
+	data["user"] = user
 	if user == nil {
 		return c.Redirect(http.StatusTemporaryRedirect, "/login")
 	}
