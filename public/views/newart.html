@@ -1,0 +1,113 @@
+<link rel="stylesheet" type="text/css" href="/static/css/simditor.css" />
+<div class="ui container">
+		<div class="ui segments">
+			<div class="ui segment">发起新的话题</div>
+			<div class="ui teal segment">
+				<form class="ui form" method="post" id="thread-form">
+					<div class="field">
+						<label>标题</label>
+						<input type="text" name="Title" placeholder="标题..."></input>
+					</div>
+					<div class="field">
+						<label>节点</label>
+							<div class="ui fluid dropdown selection" tabindex="0">
+								<select name="Node">
+									<option value>请选择节点</option>
+									{{if .nodes}}
+									{{range .nodes}}
+									<option value="{{.Type}}">{{.Name}}</option>
+									{{end}}
+									{{else}}
+									{{end}}
+								</select>
+								<i class="dropdown icon"></i>
+								<div class="default text">请选择节点</div>
+								<div class="menu" tabindex="-1">
+									{{if .nodes}}
+									{{range .nodes}}
+									<div class="item" data-value="{{.Type}}">{{.Name}}</div>
+									{{end}}
+									{{else}}
+									{{end}}
+								</div>
+							</div>
+						</input>
+					</div>
+					<div class="field">
+						<label>主题内容:</label>
+						<textarea id="editor" name="Content" placeholder="在此处输入主题内容..." autofocus></textarea>
+					</div>
+					<div align="center">
+						<div class="ui green submit button" >确认发布</div>
+					</div>
+				</form>
+			</div>
+			<div class="ui teal segment"></div>
+		</div>
+</div>
+
+<div class="ui small modal">
+	<div class="header" id="message"></div>
+	<div class="content" id="content">
+		<p></p>
+	</div>
+	<div class="actions">
+		<div class="ui approve button">确定</div>
+	</div>
+</div>
+
+<script type="text/javascript" src="/static/js/jquery.min.js"></script>
+<script type="text/javascript" src="/static/js/module.min.js"></script>
+<script type="text/javascript" src="/static/js/hotkeys.min.js"></script>
+<script type="text/javascript" src="/static/js/simditor.min.js"></script>
+
+<script type="text/javascript">
+var editor = new Simditor({
+  textarea: $('#editor')
+  //optional options
+});
+
+$(document).ready(function() {
+	$('.ui.form').form({
+		fields: {
+			title: {
+				identifier: 'title',
+				rules: [
+				{
+					type: 'empty',
+					prompt: '请输入主题标题'
+				}
+				]
+			},
+			node: {
+				identifier: 'node',
+				rules:[
+				{
+					type: 'empty',
+					prompt: '请选择节点'
+				}
+				]
+			}
+		},
+	
+		onSuccess: function () {
+			$.post('/comm/new', 
+				$('#thread-form').serialize(),
+				function(data){
+					if (data.Ok == true) {
+						$('.small.modal').modal('show');
+						$('#message').text('操作成功');
+						$('#content').text('发布主题成功,3秒后跳转到主题.')
+						var t = setTimeout('window.location.href = "/"', 2000)
+					} else {
+						$('.small.modal').modal('show');
+						$('#message').text('操作失败');
+						$('#content').text('发表主题失败,请返回重试,出错类型为' + data.Err)
+					}
+				}
+			)
+			return false
+		}
+	})
+})
+</script>

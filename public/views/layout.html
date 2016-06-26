@@ -3,42 +3,93 @@
     <meta charset="utf-8"></meta>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-    <title>{{template "Title" .}} | Powered by eden</title>
+    <title>{{.Title"}} | Powered by eden</title>
     <link rel="stylesheet" type="text/css" href="public/static/css/semantic.min.css"></link>
 </head>
 <body>
-    <div class="ui left vertical menu sidebar">
-        <a class="item">主页</a>
-        <a class="item">笔记</a>
-        <a class="item">登录</a>
-        <a class="item">友链</a>
-        <a class="item">关于</a>
-    </div>
-    <div class="pusher">
-        <div class="ui container">
-            <div class="ui grid">
-                <div class="ui segments">
-                    <div class="ui segment"></div>
-                    <div class="ui green segment">
-                        {{.Content}}
-                    </div>
+    <div class="ui top attached menu">
+        <a class="item">
+            <i class="sidebar icon"></i>
+        </a>
+        <div class="right menu">
+            {{if .user}}
+            <div class="ui dropdown item">
+                {{.Username}}
+                <i class="dropdown icon"></i>
+                <div class="menu transition">
+                    <a class="item" href="/me">个人信息</a>
+                    <a class="item" href="/note">笔记</a>
+                    <a class="item" href="/logout">登出</a>
                 </div>
             </div>
-            <div class="ui container">
-                <div class="ui six wide cloumn"></div>
-                <div class="ui ten wide column">
-                    <div class="bs-component">
-                        <blockquote>
-                            <p>Powered by Eden. Eden is a lovely blog app written in golang using many open source project.</p>
-                            <small>Under license MIT, by Lotus.</small>
-                        </blockquote>
-                    </div>
+            {{else}}
+            <a class="item">登录</a>
+            {{end}}
+        </div>
+    </div>
+    <div class="ui bottom attached segment pushable">
+        <div class="ui inverted labeled icon left inline vertical sidebar menu">
+            <a class="item" href="/">
+                <i class="home icon"></i>
+                主页
+            </a>
+            <a class="item" href="/art">
+                <i class="block layout icon"></i>
+                文章
+            </a>
+            <a class="item" href="/note">
+                <i class="book icon"></i>
+                笔记
+            </a>
+            <a class="item" href="/friendship">
+                <i class="lesbian icon"></i>
+                友链
+            </a>
+            <a class="item" href="about">
+                <i class="info icon"></i>
+                关于
+            </a>
+        </div>
+        <div class="pusher">
+            <div class="ui grid">
+                <div class="ui twelve wide column">
+                    {{define "content"}}
+                    {{template "Content"}}
+                    {{end}}
                 </div>
-                <div class="col-md3"></div>
+                <div class="ui four wide column">
+                    {{if .author}}
+                    <div class="ui segments">
+                        <div class="ui basic segment">
+                            作者信息
+                        </div>
+                        <div class="ui teal segment">
+                            <div class="card">
+                                <div class="image">
+                                    <img src="/public/static/avatar/{{.ID}}.jpg"></img>
+                                </div>
+                                <div class="content">
+                                    <div class="header">{{.Username}}</div>
+                                    <div class="meta">{{.Group}}</div>
+                                </div>
+                                <div class="extra content">
+                                    <div class="ui divided list">
+                                        <a class="item" href="/">用户其他文章</a>
+                                        <a class="item" href="/">用户其他文章2</a>
+                                        <a class="item" href="/">用户其他文章3</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui olive segment"></div>
+                    </div>
+                    {{else}}
+                    {{end}}
+                </div>
             </div>
         </div>
     </div>
-    <script src="public/static/js/jquery-2.2.4.min.js"></script>
-    <script src="public/static/js/semantic.min.js"></script>
+<script src="public/static/js/jquery-2.2.4.min.js"></script>
+<script src="public/static/js/semantic.min.js"></script>
 </body>
 </html>

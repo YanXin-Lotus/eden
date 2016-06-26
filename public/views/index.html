@@ -1,22 +1,23 @@
-{{define "Title"}} 首页{{end}}
-
 {{define "Content"}}
-{{if .data.arts}}
-<div class="panel panel-default">
-  <div class="panel-heading">Panel heading</div>
-  <div class="panel-body">
-    Panel content
-  </div>
-  <div class="panel-footer">Panel footer</div>
-</div>
-{{else}}
-<div class="panel panel-warning">
-    <div class="panel-heading">
-        <h3 class="panel-title">当前没有文章。</h3>
+    <div class="ui basic segment">
+        <h4 class="header">文章列表</h4>
+        <div class="ui very relaxed list">
+            {{if .arts}}
+            <div class="item">
+                <div class="content">
+                    <a class="header">{{.Title}}</a>
+                    <div class="description">由 {{.Username}} 发表于 {{.CreatedAt}} .</div>
+                </div>
+            </div>
+            {{else}}
+            <div class="item">
+                <div class="content">
+                    <a class="header">目前没有文章</a>
+                    <div class="description"></div>
+                </div>
+            </div>
+            {{end}}
+        </div>
+        <div class="content"></div>
     </div>
-    <div class="panel-body">
-        当前没有文章.....
-    </div>
-</div>
-{{end}}
 {{end}}
