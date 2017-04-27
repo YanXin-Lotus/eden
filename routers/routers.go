@@ -7,7 +7,6 @@ import (
 	"eden/models"
 
 	"github.com/labstack/echo"
-	"github.com/labstack/echo/engine/standard"
 	"github.com/labstack/echo/middleware"
 	"github.com/qor/admin"
 	"github.com/qor/qor"
@@ -67,5 +66,5 @@ func init() {
 	// amount to /admin, so visit `/admin` to view the admin interface
 	mux := http.NewServeMux()
 	Admin.MountTo("/admin", mux)
-	Routers.Any("/admin/*", standard.WrapHandler(mux))
+	Routers.Any("/admin/*", echo.WrapHandler(mux))
 }

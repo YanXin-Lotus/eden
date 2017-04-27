@@ -78,7 +78,7 @@ func QueryArticle(art *Article) (err error) {
 }
 
 //show article
-func QueryExtendArticle(id int) (exArt *ExtArt, err error) {
+func QueryExtendArticle(id int) (exArt *ExtendArticle, err error) {
 	err = DB.Table("article").Select("article.id, article.Title, category.name as category, article.create_at, user.name as username").Joins("inner join user on user.id = article.create_by").Joins("inner join category on category.id = article.category").Scan(&exArt).Error
 	if err != nil {
 		return nil, err
@@ -92,7 +92,7 @@ func QueryNote(n *Note) (err error) {
 }
 
 //update multifield
-func UpdateArt(art *Article) error {
+func UpdateArticle(art *Article) error {
 	return DB.Update("title", art.Title).Update("content", art.Content).Error
 }
 
@@ -102,7 +102,7 @@ func DeleteArticle(id int) (err error) {
 	return DB.Delete(&art).Error
 }
 
-func QueryArticleList(page int, sort int) (list []ExtArt, err error) {
+func QueryArticleList(page int, sort int) (list []ExtendArticle, err error) {
 	err = DB.Table("article").Select("article.id, article.Title, article.category, article.create_at, user.name").Joins("inner join user on user.id = article.create_by").Scan(&list).Offset((page - 1) * pageSize).Limit(pageSize).Error
 	if err != nil {
 		return nil, err
@@ -110,7 +110,7 @@ func QueryArticleList(page int, sort int) (list []ExtArt, err error) {
 	return list, nil
 }
 
-func ArtContentQuery(key string) (list []ExtArt, err error) {
+func ArtContentQuery(key string) (list []ExtendArticle, err error) {
 	return nil, nil
 }
 

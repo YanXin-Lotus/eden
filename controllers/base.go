@@ -10,7 +10,6 @@ import (
 
 	"github.com/gorilla/sessions"
 	"github.com/labstack/echo"
-	"github.com/labstack/echo/engine/standard"
 	"github.com/qor/admin"
 	"github.com/qor/qor"
 )
@@ -59,14 +58,14 @@ func Friendship(c echo.Context) error {
 
 //set session
 func setUser(user *models.User, c echo.Context) error {
-	session, _ := SessionStore.Get(c.Request().(*standard.Request).Request, "eden")
+	session, _ := SessionStore.Get(c.Request(), "eden")
 	session.Values["user"] = user
-	session.Save(c.Request().(*standard.Request).Request, c.Response().(*standard.Response).ResponseWriter)
+	session.Save(c.Request(), c.Response().Writer)
 	return nil
 }
 
 func currentUser(c echo.Context) *models.User {
-	session, _ := SessionStore.Get(c.Request().(*standard.Request).Request, "eden")
+	session, _ := SessionStore.Get(c.Request(), "eden")
 	user := session.Values["user"]
 	if user == nil {
 		return nil
@@ -75,11 +74,12 @@ func currentUser(c echo.Context) *models.User {
 }
 
 func delSession(c echo.Context) error {
-	session, _ := SessionStore.Get(c.Request().(*standard.Request).Request, "eden")
+	session, _ := SessionStore.Get(c.Request(), "eden")
 	session.Values["user"] = nil
-	return session.Save(c.Request().(*standard.Request).Request, c.Response().(*standard.Response).ResponseWriter)
+	return session.Save(c.Request(), c.Response().Writer)
 }
 
+// Render render a template
 func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
 	return t.templates.ExecuteTemplate(w, name, data)
 }

@@ -26,7 +26,7 @@ func CheckUsernamePermitted(name string) error {
 
 func CheckPasswordPermitted(pw string) error {
 	//password allow special symbol
-	m, err := regexp.Match(`^[A-Za-z0-9!"#$%&'()*+,\-./:;<=>?@[\\\]^_{|}~]{6,32}$`, []byte(name))
+	m, err := regexp.Match(`^[A-Za-z0-9!"#$%&'()*+,\-./:;<=>?@[\\\]^_{|}~]{6,32}$`, []byte(pw))
 	if !m || err != nil {
 		return errors.New("包含非法字符或者长度不合法(允许6-32位长度)")
 	}

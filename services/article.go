@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-func ArticleList(pageStr string, sortStr string) (list []models.ExtArt, err error) {
+func QueryArticleList(pageStr string, sortStr string) (list []models.ExtendArticle, err error) {
 	page, err := strconv.Atoi(pageStr)
 	if err != nil {
 		return nil, err
@@ -15,19 +15,19 @@ func ArticleList(pageStr string, sortStr string) (list []models.ExtArt, err erro
 	if err != nil {
 		return nil, err
 	}
-	list, err = models.ArticleListQuery(page, sort)
+	list, err = models.QueryArticleList(page, sort)
 	if err != nil {
 		return nil, err
 	}
 	return list, nil
 }
 
-func QueryArticle(idStr string) (art *models.ExtArt, err error) {
+func QueryArticle(idStr string) (art *models.ExtendArticle, err error) {
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
 		return nil, err
 	}
-	art, err = models.QueryArticle(id)
+	art, err = models.QueryExtendArticle(id)
 	if err != nil {
 		return nil, err
 	}

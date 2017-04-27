@@ -10,7 +10,7 @@ import (
 
 func Index(c echo.Context) error {
 	data := make(map[string]interface{})
-	list, err := services.ArtList("1", "0")
+	list, err := services.QueryArticleList("1", "0")
 	if err != nil {
 		return c.Redirect(http.StatusOK, "/404")
 	}
@@ -23,7 +23,7 @@ func Pagination(c echo.Context) error {
 	data := make(map[string]interface{})
 	page := c.Param("page")
 	sort := c.Param("sort")
-	list, err := services.ArtList(page, sort)
+	list, err := services.QueryArticleList(page, sort)
 	if err != nil {
 		return c.Redirect(http.StatusOK, "/404")
 	}
@@ -36,7 +36,7 @@ func Category(c echo.Context) error {
 	data := make(map[string]interface{})
 	page := c.Param("page")
 	sort := c.Param("sort")
-	list, err := services.ArtList(page, sort)
+	list, err := services.QueryArticleList(page, sort)
 	if err != nil {
 		return c.Redirect(http.StatusOK, "/")
 	}
@@ -48,7 +48,7 @@ func Category(c echo.Context) error {
 func Article(c echo.Context) error {
 	data := make(map[string]interface{})
 	id := c.Param("id")
-	art, err := services.QueryArt(id)
+	art, err := services.QueryArticle(id)
 	if err != nil {
 		return c.Redirect(http.StatusTemporaryRedirect, "/404")
 	}
@@ -60,7 +60,7 @@ func Article(c echo.Context) error {
 func EditArticle(c echo.Context) error {
 	data := make(map[string]interface{})
 	id := c.Param("id")
-	art, err := services.QueryArt(id)
+	art, err := services.QueryArticle(id)
 	if err != nil {
 		return c.Redirect(http.StatusOK, "/404")
 	}
@@ -77,7 +77,7 @@ func DoEditArticle(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusOK, &retJson{OK: false, Desc: "err bind article"})
 	}
-	err = services.UpdateArt(&art, user)
+	err = services.UpdateArticle(&art, user)
 	if err != nil {
 		return c.JSON(http.StatusOK, &retJson{OK: false, Desc: "err update article"})
 	}
