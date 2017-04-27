@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-func ArtList(pageStr string, sortStr string) (list []models.ExtArt, err error) {
+func ArticleList(pageStr string, sortStr string) (list []models.ExtArt, err error) {
 	page, err := strconv.Atoi(pageStr)
 	if err != nil {
 		return nil, err
@@ -15,38 +15,38 @@ func ArtList(pageStr string, sortStr string) (list []models.ExtArt, err error) {
 	if err != nil {
 		return nil, err
 	}
-	list, err = models.ArtListQuery(page, sort)
+	list, err = models.ArticleListQuery(page, sort)
 	if err != nil {
 		return nil, err
 	}
 	return list, nil
 }
 
-func QueryArt(idStr string) (art *models.ExtArt, err error) {
+func QueryArticle(idStr string) (art *models.ExtArt, err error) {
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
 		return nil, err
 	}
-	art, err = models.ShowArt(id)
+	art, err = models.QueryArticle(id)
 	if err != nil {
 		return nil, err
 	}
 	return art, nil
 }
 
-func UpdateArt(art *models.Article, u *models.User) (err error) {
+func UpdateArticle(art *models.Article, u *models.User) (err error) {
 	originArt := models.Article{ID: art.ID}
-	err = models.ArtQuery(&originArt)
+	err = models.QueryArticle(&originArt)
 	if err != nil {
 		return err
 	}
 	if originArt.CreatedBy != u.ID && !u.IsAdmin() {
 		return fmt.Errorf("no access to this article")
 	}
-	return models.UpdateArt(art)
+	return models.UpdateArticle(art)
 }
 
-func DeleteArt(idStr string, u *models.User) (err error) {
+func DeleteArticle(idStr string, u *models.User) (err error) {
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
 		return err
@@ -55,5 +55,5 @@ func DeleteArt(idStr string, u *models.User) (err error) {
 		return fmt.Errorf("no access to delete this article")
 	}
 
-	return models.DeleteArt(id)
+	return models.DeleteArticle(id)
 }

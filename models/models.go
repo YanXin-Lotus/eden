@@ -46,7 +46,7 @@ type Article struct {
 	Hits      uint64
 }
 
-type ExtArt struct {
+type ExtendArticle struct {
 	ID        int
 	Username  string
 	CreatedBy int
@@ -64,7 +64,7 @@ func (u User) DisplayName() string {
 }
 
 //user query by pk:ID
-func UserQuery(u *User) (err error) {
+func QueryUser(u *User) (err error) {
 	return DB.First(&u).Error
 }
 
@@ -73,12 +73,12 @@ func UserExsist(u *User) bool {
 }
 
 //article query by pk:ID
-func ArtQuery(art *Article) (err error) {
+func QueryArticle(art *Article) (err error) {
 	return DB.First(&art).Error
 }
 
 //show article
-func ShowArt(id int) (exArt *ExtArt, err error) {
+func QueryExtendArticle(id int) (exArt *ExtArt, err error) {
 	err = DB.Table("article").Select("article.id, article.Title, category.name as category, article.create_at, user.name as username").Joins("inner join user on user.id = article.create_by").Joins("inner join category on category.id = article.category").Scan(&exArt).Error
 	if err != nil {
 		return nil, err
@@ -87,7 +87,7 @@ func ShowArt(id int) (exArt *ExtArt, err error) {
 }
 
 //note query by pk:ID
-func NoteQuery(n *Note) (err error) {
+func QueryNote(n *Note) (err error) {
 	return DB.First(&n).Error
 }
 
@@ -97,12 +97,12 @@ func UpdateArt(art *Article) error {
 }
 
 //delete article
-func DeleteArt(id int) (err error) {
+func DeleteArticle(id int) (err error) {
 	art := Article{ID: id}
 	return DB.Delete(&art).Error
 }
 
-func ArtListQuery(page int, sort int) (list []ExtArt, err error) {
+func QueryArticleList(page int, sort int) (list []ExtArt, err error) {
 	err = DB.Table("article").Select("article.id, article.Title, article.category, article.create_at, user.name").Joins("inner join user on user.id = article.create_by").Scan(&list).Offset((page - 1) * pageSize).Limit(pageSize).Error
 	if err != nil {
 		return nil, err
