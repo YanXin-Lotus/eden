@@ -1,4 +1,3 @@
 *.exe
 eden
-*.jpg
-*.jpeg
+.idea

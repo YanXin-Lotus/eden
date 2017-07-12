@@ -6,6 +6,6 @@ import (
 )
 
 func main() {
-	//run
-	routers.Routers.Run(routers.Routers)
+	e := routers.Routers
+	e.Logger.Fatal(e.Start(":8089"))
 }

@@ -14,6 +14,12 @@ import (
 	"github.com/qor/qor"
 )
 
+type retJson struct {
+	OK       bool
+	Desc     string
+	Redirect string
+}
+
 var T *Template
 var SessionStore *sessions.CookieStore
 
@@ -88,6 +94,6 @@ func init() {
 	gob.Register(&models.User{})
 	SessionStore = sessions.NewCookieStore([]byte("I'mSecretKey"))
 	T = &Template{
-		templates: template.Must(template.ParseGlob("public/views/*.html")),
+		templates: template.Must(template.ParseGlob("views/*.html")),
 	}
 }

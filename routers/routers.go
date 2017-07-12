@@ -20,38 +20,38 @@ func init() {
 
 	Routers = echo.New()
 
-	Routers.SetRenderer(controllers.T)
+	Routers.Renderer = controllers.T
 
 	//------------
 	// Middleware
 	//------------
 	Routers.Use(middleware.Logger())
-	Routers.Use(middleware.Static("/static"))
+	Routers.Use(middleware.Static("/statics"))
 	//Routers.Use(middleware.JWT([]byte(config.Config.JwtAuthKey)))
 
 	//article routers
-	Routers.Get("/", controllers.Index)
-	Routers.Get("/art/:id", controllers.Article)
-	Routers.Get("/art/:id/edit", controllers.EditArticle)
-	Routers.Post("/art/:id/edit", controllers.DoEditArticle)
-	Routers.Get("/page/:id", controllers.Pagination)
-	Routers.Get("/cat/:cat", controllers.Category)
+	Routers.GET("/", controllers.Index)
+	Routers.GET("/art/:id", controllers.Article)
+	Routers.GET("/art/:id/edit", controllers.EditArticle)
+	Routers.POST("/art/:id/edit", controllers.DoEditArticle)
+	Routers.GET("/page/:id", controllers.Pagination)
+	Routers.GET("/cat/:cat", controllers.Category)
 
 	//account routers
-	Routers.Get("/login", controllers.Login)
-	Routers.Post("/login", controllers.DoLogin)
-	Routers.Get("/signout", controllers.Signout)
-	Routers.Get("/register", controllers.Register)
-	Routers.Post("/register", controllers.DoRegister)
-	Routers.Get("/info", controllers.Info)
-	Routers.Get("/editinfo", controllers.EditInfo)
-	Routers.Post("/editinfo", controllers.DoEditInfo)
-	Routers.Get("/changepw", controllers.ChangePW)
-	Routers.Post("/changePW", controllers.DoChangePW)
+	Routers.GET("/login", controllers.Login)
+	Routers.POST("/login", controllers.DoLogin)
+	Routers.GET("/signout", controllers.Signout)
+	Routers.GET("/register", controllers.Register)
+	Routers.POST("/register", controllers.DoRegister)
+	Routers.GET("/info", controllers.Info)
+	Routers.GET("/editinfo", controllers.EditInfo)
+	Routers.POST("/editinfo", controllers.DoEditInfo)
+	Routers.GET("/changepw", controllers.ChangePW)
+	Routers.POST("/changePW", controllers.DoChangePW)
 
 	//other routers
-	Routers.Get("/about", controllers.About)
-	Routers.Get("/friendship", controllers.Friendship)
+	Routers.GET("/about", controllers.About)
+	Routers.GET("/friendship", controllers.Friendship)
 
 	// Initalize
 	Admin := admin.New(&qor.Config{DB: models.DB})
